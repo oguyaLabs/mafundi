@@ -19,6 +19,7 @@ package com.wglxy.example.dashL;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 
 		try{
 			Bundle args = getIntent().getExtras();
-			searchStr = args.getString(Constants.SEARCH_ARGS);
+			searchStr = args.getString(Constants.KEY_SEARCH_ARGS);
 		}catch(Exception ex){
 			Log.e(LOG_TAG, "no search args: "+ex.getMessage());
 		}
@@ -169,6 +170,11 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
+		
+		//TODO get company ID/details
+		Bundle args = new Bundle();
+		Intent companyIntent = new Intent(SearchActivity.this, CompanyActivity.class);
+		companyIntent.putExtras(args);
+		startActivity(companyIntent);
 	}
 }

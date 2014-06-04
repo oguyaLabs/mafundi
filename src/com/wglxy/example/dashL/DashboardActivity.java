@@ -229,7 +229,7 @@ public void onClickFeature (View v)
     	  }
     	  
     	  Bundle args = new Bundle();
-    	  args.putString(Constants.SEARCH_ARGS, search_str);
+    	  args.putString(Constants.KEY_SEARCH_ARGS, search_str);
     	  Intent searchIntent = new Intent(DashboardActivity.this, SearchActivity.class);
     	  searchIntent.putExtras(args);
     	  startActivity(searchIntent);

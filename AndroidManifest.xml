@@ -1,92 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.wglxy.example.dashL"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk 
-    	android:minSdkVersion="8"
-    	android:targetSdkVersion="10"
-     />
-    <application 
-      android:theme="@style/Theme.D1"
-      android:icon="@drawable/icon" 
-      android:label="@string/app_name">
-      <activity android:name=".HomeActivity"
-                  android:label="@string/app_name">
-         <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-         </intent-filter>
-      </activity>
+    package="com.wglxy.example.dashL"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-      <activity android:name=".F1Activity"
-            android:theme="@style/Theme.D1"
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="10" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.D1" >
+        <activity
+            android:name="com.wglxy.example.dashL.HomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.wglxy.example.dashL.F1Activity"
             android:label="@string/title_feature1"
-            />
-      <activity android:name=".F2Activity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.F2Activity"
             android:label="@string/title_feature2"
-            />
-      <activity android:name=".F3Activity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.F3Activity"
             android:label="@string/title_feature3"
-            />
-      <activity android:name=".F4Activity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.F4Activity"
             android:label="@string/title_feature4"
-            />
-      <activity android:name=".F5Activity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.F5Activity"
             android:label="@string/title_feature5"
-            />
-      <activity android:name=".F6Activity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.F6Activity"
             android:label="@string/title_feature6"
-            />
-      <activity android:name=".AboutActivity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.AboutActivity"
             android:label="@string/title_about"
-            />
-      <activity android:name="com.wglxy.example.dashL.SearchActivity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.SearchActivity"
             android:label="@string/title_search"
-            />
-      <activity android:name=".Fetch_electricians"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.Fetch_electricians"
             android:label="@string/title_feature6"
-            />
-      <activity android:name=".ElectricianCall"
-            android:theme="@style/Theme.D1"
-             android:configChanges="orientation"
-            />
-      <activity android:name=".SendSMSActivity"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.ElectricianCall"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.SendSMSActivity"
             android:label="@string/title_search"
-            />
-    <activity android:name=".Demo1"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.Demo1"
             android:label="@string/title_feature6"
-            />
-      <activity android:name=".Demo2"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.Demo2"
             android:label="@string/title_about"
-            />
-      <activity android:name=".Demo3"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.Demo3"
             android:label="@string/title_search"
-            />
-      <activity android:name=".Demo5"
-            android:theme="@style/Theme.D1"
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.Demo5"
             android:label="@string/title_search"
-            />
-      </application>
-     
-        <uses-permission android:name="android.permission.SEND_SMS" />
-       
-     
-       <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-       <uses-permission android:name="android.permission.CALL_PRIVILEGED"></uses-permission>
-       <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-    
-</manifest> 
+            android:theme="@style/Theme.D1" />
+        <activity
+            android:name="com.wglxy.example.dashL.CompanyActivity"
+            android:label="@string/title_activity_company" >
+        </activity>
+    </application>
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PRIVILEGED" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE" >
+    </uses-permission>
+
+</manifest>
