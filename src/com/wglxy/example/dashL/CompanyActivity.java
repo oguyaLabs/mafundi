@@ -1,5 +1,6 @@
 package com.wglxy.example.dashL;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -64,6 +65,10 @@ public class CompanyActivity extends  DashboardActivity {
 			// TODO Auto-generated method stub
 			switch(view.getId()){
 			case R.id.btn_contact:	//show contact
+				//TODO add company ID args
+				Bundle args = new Bundle();
+				Intent contactIntent = new Intent(CompanyActivity.this, ContactCompanyActivity.class);
+				startActivity(contactIntent);
 				break;
 				
 			case R.id.btn_reviews:	//show reviews

@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <!-- section AB -->
+
+    <LinearLayout
+        android:id="@+id/section_AB"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background1"
+        android:orientation="vertical" >
+
+        <LinearLayout style="@style/TitleBar" >
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_home"
+                android:onClick="onClickHome"
+                android:src="@drawable/title_home" />
+
+            <ImageView style="@style/TitleBarSeparator" />
+
+            <TextView style="@style/TitleBarText" />
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_about"
+                android:onClick="onClickAbout"
+                android:src="@drawable/title_about" />
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_search"
+                android:onClick="onClickSearch"
+                android:src="@drawable/title_search" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- content section -->
+
+    <RelativeLayout
+        android:id="@+id/section_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/section_AB"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp" >
+        
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+            android:text="@string/lbl_project_name"
+            android:textSize="17sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+            
+            <EditText
+        android:id="@+id/edit_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true" />
+            
+                <TextView
+                    android:text="@string/hint_contact_msg"
+                    android:textSize="17sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edit_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="5"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:text="@string/lbl_submit" />
+
+            
+        </LinearLayout>
+        
+        
+        
+    </RelativeLayout>
+
+</RelativeLayout>
