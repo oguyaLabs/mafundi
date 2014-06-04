@@ -1,11 +1,12 @@
 package com.wglxy.example.dashL;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class LoginActivity extends DashboardActivity {
 
@@ -13,6 +14,7 @@ public class LoginActivity extends DashboardActivity {
 	EditText edit_password;
 	Button btn_cancel;
 	Button btn_login;
+	TextView txt_signUp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,11 @@ public class LoginActivity extends DashboardActivity {
 		edit_password = (EditText)findViewById(R.id.edit_login_password);
 		btn_cancel = (Button)findViewById(R.id.btn_login_cancel);
 		btn_login = (Button)findViewById(R.id.btn_login_login);
+		txt_signUp = (TextView)findViewById(R.id.txt_signUp);
 		
 		btn_login.setOnClickListener(clickListener);
 		btn_cancel.setOnClickListener(clickListener);
+		txt_signUp.setOnClickListener(clickListener);
 	}
 	
 	boolean validateInput(){
@@ -60,6 +64,10 @@ public class LoginActivity extends DashboardActivity {
 				
 			case R.id.btn_login_cancel:	//cancel
 				LoginActivity.this.onBackPressed();
+				break;
+				
+			case R.id.txt_signUp:	//signUp
+				startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
 				break;
 				
 			default:break;

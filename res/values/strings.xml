@@ -67,5 +67,6 @@
     <string name="hint_contact_msg">Message</string>
     <string name="lbl_submit">Submit</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_sign_up">SignUp</string>
 
 </resources>

@@ -52,25 +52,33 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="70dp"
-        tools:context=".Login" >
+        android:paddingTop="50dp" >
 
         <EditText
-            android:id="@+id/edit_login_username"
-            android:layout_width="match_parent"
+            android:id="@+id/text_su_email"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="50dp"
-            android:drawableLeft="@drawable/ic_user"
+            android:drawableLeft="@drawable/ic_email"
             android:ems="10"
-            android:hint="username"
-            android:inputType="textPersonName"
-            android:singleLine="true" >
+            android:hint="Email"
+            android:inputType="textEmailAddress" >
 
             <requestFocus />
         </EditText>
 
         <EditText
-            android:id="@+id/edit_login_password"
+            android:id="@+id/text_su_username"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/ic_user"
+            android:ems="10"
+            android:hint="Username"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/text_su_password1"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
@@ -80,48 +88,14 @@
             android:inputType="textPassword"
             android:singleLine="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_su_sign_up"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/btn_login_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight=".2"
-                android:drawableLeft="@drawable/ic_cancel"
-                android:text="Cancel" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".2" />
-
-            <Button
-                android:id="@+id/btn_login_login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight=".2"
-                android:drawableLeft="@drawable/ic_ok"
-                android:text="Login" />
-        </LinearLayout>
-        
-        <TextView
-            android:id="@+id/txt_signUp"
-            android:layout_marginTop="20sp"
             android:layout_gravity="center_horizontal"
-            android:text="Dont Have an Account? Sign Up."
-            android:textColor="#ff4d90fe"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-             
-            />
-        
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/ic_ok"
+            android:text="Sign Up" />
     </LinearLayout>
 
 </RelativeLayout>
