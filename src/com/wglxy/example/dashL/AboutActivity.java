@@ -46,6 +46,7 @@ protected void onCreate(Bundle savedInstanceState)
 
     setContentView (R.layout.activity_about);
     setTitleFromActivityLabel (R.id.title_text);
+    showLogginLogout(findViewById(R.id.btn_login_logout));
 }
     
 } // end class

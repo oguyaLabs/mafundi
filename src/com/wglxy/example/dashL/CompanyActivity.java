@@ -30,6 +30,8 @@ public class CompanyActivity extends  DashboardActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_company);
 		setTitleFromActivityLabel(R.id.title_text);
+		showLogginLogout(findViewById(R.id.btn_login_logout));
+		
 		//get args data
 		getArgs();
 		

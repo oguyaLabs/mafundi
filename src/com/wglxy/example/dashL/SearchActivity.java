@@ -64,7 +64,7 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		setTitleFromActivityLabel(R.id.title_text);
-		
+		showLogginLogout(findViewById(R.id.btn_login_logout));
 
 		try{
 			Bundle args = getIntent().getExtras();

@@ -26,6 +26,13 @@
             <TextView style="@style/TitleBarText" />
 
             <ImageButton
+                android:id="@+id/btn_login_logout"
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_about"
+                android:onClick="onClickLoginLogout"
+                android:src="@drawable/ic_login" />
+
+            <ImageButton
                 style="@style/TitleBarAction"
                 android:contentDescription="@string/description_about"
                 android:onClick="onClickAbout"
@@ -49,51 +56,46 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="3dp" >
-        
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
             <TextView
-            android:text="@string/lbl_project_name"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-            
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_project_name"
+                android:textSize="17sp" />
+
             <EditText
-        android:id="@+id/edit_subject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true" />
-            
-                <TextView
-                    android:text="@string/hint_contact_msg"
-                    android:textSize="17sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+                android:id="@+id/edit_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
 
-    <EditText
-        android:id="@+id/edit_message"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:lines="5"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_contact_msg"
+                android:textSize="17sp" />
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:text="@string/lbl_submit" />
+            <EditText
+                android:id="@+id/edit_message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="5" />
 
-            
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/lbl_submit"
+                android:textSize="17sp" />
         </LinearLayout>
-        
-        
-        
     </RelativeLayout>
 
 </RelativeLayout>

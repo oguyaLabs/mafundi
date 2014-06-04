@@ -31,6 +31,7 @@ public class ContactCompanyActivity extends DashboardActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_company);
 		setTitleFromActivityLabel(R.id.title_text);
+		showLogginLogout(findViewById(R.id.btn_login_logout));
 		
 		initUI();
 	}
@@ -83,11 +84,7 @@ public class ContactCompanyActivity extends DashboardActivity {
 		message = edit_message.getText().toString();
 	}
 	
-	boolean isLoggedIn(){
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean loggedIn = prefs.getBoolean(Constants.KEY_USER_LOGGED_IN, false);
-		return loggedIn;
-	}
+
 	
 	@Override
 	protected void onPause(){

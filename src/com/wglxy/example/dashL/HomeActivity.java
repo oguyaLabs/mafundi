@@ -42,6 +42,7 @@ protected void onCreate(Bundle savedInstanceState)
 {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
+    showLogginLogout(findViewById(R.id.btn_login_logout));
 }
     
 /**

@@ -26,6 +26,13 @@
             <TextView style="@style/TitleBarText" />
 
             <ImageButton
+                android:id="@+id/btn_login_logout"
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_about"
+                android:onClick="onClickLoginLogout"
+                android:src="@drawable/ic_login" />
+
+            <ImageButton
                 style="@style/TitleBarAction"
                 android:contentDescription="@string/description_about"
                 android:onClick="onClickAbout"
@@ -40,6 +47,7 @@
     </LinearLayout>
 
     <!-- content section -->
+
     <RelativeLayout
         android:id="@+id/section_content"
         android:layout_width="match_parent"
@@ -71,8 +79,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:text="@string/lbl_company_name"
-                android:textStyle="bold"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txt_company_location"
@@ -145,26 +153,24 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </RelativeLayout>
-    
-    
+
     <!-- reviews section -->
-        <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/section_reviews"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/section_AB"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="3dp" >
-        
-            <ListView
-                android:id="@+id/reviewsList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:choiceMode="singleChoice"/>
-        
-        </RelativeLayout>
-    
+        android:paddingTop="3dp"
+        android:visibility="gone" >
+
+        <ListView
+            android:id="@+id/reviewsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -21,8 +21,12 @@ package com.wglxy.example.dashL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -165,6 +170,54 @@ protected void onStop ()
 public void onClickHome (View v)
 {
     goHome (this);
+}
+
+public void showLogginLogout(View view){
+	if(isLoggedIn())
+		((ImageButton)view).setImageResource(R.drawable.ic_logout);
+	else
+		((ImageButton)view).setImageResource(R.drawable.ic_login);
+}
+
+public boolean isLoggedIn(){
+	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	boolean loggedIn = prefs.getBoolean(Constants.KEY_USER_LOGGED_IN, false);
+	return loggedIn;
+}
+
+public String getLoggedInUser(){
+	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	String username = prefs.getString(Constants.KEY_USER_NAME, "John Doe");
+	return username;
+}
+
+public void setLoggedIn(String username, String email, boolean loggedIn){
+	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	Editor editor = prefs.edit();
+	editor.putString(Constants.KEY_USER_NAME, username);
+	editor.putString(Constants.KEY_USER_EMAIL, email);
+	editor.putBoolean(Constants.KEY_USER_LOGGED_IN, loggedIn);
+	editor.commit();
+}
+
+public void logOutUser(){
+	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	Editor editor = prefs.edit();
+	editor.putString(Constants.KEY_USER_NAME, "");
+	editor.putString(Constants.KEY_USER_EMAIL, "");
+	editor.putBoolean(Constants.KEY_USER_LOGGED_IN, false);
+	editor.commit();
+}
+
+public void onClickLoginLogout(View view){
+	if(isLoggedIn()){
+		((ImageButton)view).setImageResource(R.drawable.ic_login);
+		logOutUser();
+	}else{
+		((ImageButton)view).setImageResource(R.drawable.ic_login);
+		//start login
+		
+	}
 }
 
 /**
@@ -367,6 +420,12 @@ public boolean onOptionsItemSelected(MenuItem item){
 	}
 	return false;
 	
-}	
+}
+
+public interface AuthenticateUser{
+	
+	
+	public void logOut();
+}
 
 }
