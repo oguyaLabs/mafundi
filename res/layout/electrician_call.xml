@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical" 
+  android:background="#008000" 
+>
+<TextView 
+		
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:textColor="#ffcccc"
+		android:text="@string/title_feature1"
+		android:background="#33CC00"
+		android:textSize="15sp"/>
+          		
+ 		<TextView 
+		android:id="@+id/description" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:textColor="#ffffff"
+		android:textSize="15sp">		
+		
+	</TextView>
+	
+	<Button 
+		android:id="@+id/btncall" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:text="Call"
+		android:onClick="clicktocall"
+		>
+		</Button>
+
+	<Button
+	    android:id="@+id/SendSMS"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Text" />
+
+	
+			
+</LinearLayout>
+

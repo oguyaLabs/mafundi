@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+  android:id="@+id/MenuSweet"
+  android:alphabeticShortcut="s"
+   android:icon="@drawable/login"
+   /> 
+   <item
+  android:id="@+id/MenuToast"
+  android:alphabeticShortcut="t"
+  android:icon="@drawable/tips"
+  />
+   <item
+  android:id="@+id/Mafundi"
+  android:alphabeticShortcut="M"
+   android:icon="@drawable/icon"
+  /> 
+  <item
+  android:id="@+id/MenuSettings"
+  android:alphabeticShortcut="S"
+  android:icon="@drawable/settings"
+  /> 
+ 
+</menu>
