@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,9 +31,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.wglxy.example.dashL.constants.Constants;
 
 /**
  * This is the base class for activities in the dashboard application.
@@ -216,7 +220,20 @@ public void onClickFeature (View v)
       case R.id.home_btn_houserepairs :
            startActivity (new Intent(getApplicationContext(), F6Activity.class));
            break;
-      default: 
+           
+      case R.id.btn_search:	//show search activity
+    	  String search_str = ((EditText)findViewById(R.id.edit_search)).getText().toString();
+    	  if(TextUtils.isEmpty(search_str)){
+    		  toast("Please specify what you want to search for.");
+    		  return;
+    	  }
+    	  
+    	  Bundle args = new Bundle();
+    	  args.putString(Constants.SEARCH_ARGS, search_str);
+    	  Intent searchIntent = new Intent(DashboardActivity.this, SearchActivity.class);
+    	  searchIntent.putExtras(args);
+    	  startActivity(searchIntent);
+      default:
     	   break;
     }
 }

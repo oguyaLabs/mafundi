@@ -53,8 +53,7 @@
         android:id="@+id/searchResultsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:layout_below="@id/section_top"
+        android:layout_below="@id/top_section"
         android:choiceMode="singleChoice" />
     
     <!-- loading progress -->

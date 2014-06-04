@@ -17,112 +17,129 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/db1_root"
-    android:orientation="vertical"
-    android:background="@color/background1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout style="@style/TitleBar">
+    android:layout_height="match_parent"
+    android:background="@color/background1"
+    android:orientation="vertical" >
+
+    <LinearLayout style="@style/TitleBar" >
 
         <ImageView
             style="@style/TitleBarLogo"
             android:layout_width="wrap_content"
             android:contentDescription="@style/TitleBarLogo"
             android:src="@drawable/title_logo" />
-       
+
         <TextView style="@style/TitleBarText" />
-        <ImageButton style="@style/TitleBarAction"
+
+        <ImageButton
+            style="@style/TitleBarAction"
             android:contentDescription="@string/description_about"
-            android:src="@drawable/title_about"
-            android:onClick="onClickAbout" />
-        
-        
-        <ImageButton style="@style/TitleBarAction"
+            android:onClick="onClickAbout"
+            android:src="@drawable/title_about" />
+
+        <ImageButton
+            style="@style/TitleBarAction"
             android:contentDescription="@string/description_search"
-            android:src="@drawable/title_search"
-            android:onClick="onClickSearch" />
+            android:onClick="onClickSearch"
+            android:src="@drawable/title_search" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="6dip"
+        android:weightSum="3" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_electronics"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button1"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature1" />
+
+            <Button
+                android:id="@+id/home_btn_mechanics"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button2"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_electricians"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button3"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature3" />
+
+            <Button
+                android:id="@+id/home_btn_plumbers"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button4"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_cabletv"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button5"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature5" />
+
+            <Button
+                android:id="@+id/home_btn_houserepairs"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_button6"
+                android:onClick="onClickFeature"
+                android:text="@string/title_feature6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/edit_search"
+                android:layout_width="239dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_hint"
+                android:textColor="@color/foreground1" >
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_search"
+                android:onClick="onClickFeature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="@string/title_search"
+                android:textColor="@color/foreground1" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="3"
-    android:padding="6dip">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <Button android:id="@+id/home_btn_electronics"
-            style="@style/HomeButton"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature1"
-            android:drawableTop="@drawable/home_button1"/>
-        <Button android:id="@+id/home_btn_mechanics"
-            style="@style/HomeButton"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature2"
-            android:drawableTop="@drawable/home_button2"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <Button android:id="@+id/home_btn_electricians"
-            style="@style/HomeButton"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature3"
-            android:drawableTop="@drawable/home_button3"/>
-        <Button android:id="@+id/home_btn_plumbers"
-            style="@style/HomeButton"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature4"
-            android:drawableTop="@drawable/home_button4"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <Button
-            android:id="@+id/home_btn_cabletv"
-            style="@style/HomeButton"
-            android:drawableTop="@drawable/home_button5"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature5" />
-
-        <Button android:id="@+id/home_btn_houserepairs"
-            style="@style/HomeButton"
-            android:onClick="onClickFeature"
-            android:text="@string/title_feature6"
-            android:drawableTop="@drawable/home_button6"/>
-    </LinearLayout>
-
-<LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-    <EditText
-        android:id="@+id/edit_search"
-        android:layout_width="239dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textColor="@color/foreground1"
-        android:hint="@string/text_hint">
- <requestFocus />
-           </EditText>
-
-         <Button
-             android:id="@+id/btn_search"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/foreground1"
-             android:layout_marginLeft="0dp"
-             android:text="@string/title_search" />
-      </LinearLayout>
-</LinearLayout>
-</LinearLayout> 
