@@ -89,6 +89,10 @@
             android:name="com.wglxy.example.dashL.ContactCompanyActivity"
             android:label="@string/title_activity_contact_company" >
         </activity>
+        <activity
+            android:name="com.wglxy.example.dashL.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.SEND_SMS" />

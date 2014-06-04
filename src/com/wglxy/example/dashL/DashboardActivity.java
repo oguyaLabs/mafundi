@@ -216,7 +216,7 @@ public void onClickLoginLogout(View view){
 	}else{
 		((ImageButton)view).setImageResource(R.drawable.ic_login);
 		//start login
-		
+		startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 	}
 }
 

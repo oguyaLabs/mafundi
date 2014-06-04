@@ -60,12 +60,12 @@
     <string name="lbl_btn_reviews">Reviews</string>
     <string name="lbl_btn_company_reviews">Company Reviews</string>
     <string name="lbl_services">Services Offered</string>
-    
+
     <!-- contact company -->
     <string name="title_activity_contact_company">Contact Company</string>
     <string name="lbl_project_name">Subject</string>
     <string name="hint_contact_msg">Message</string>
     <string name="lbl_submit">Submit</string>
-    
+    <string name="title_activity_login">Login</string>
 
 </resources>
