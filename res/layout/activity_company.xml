@@ -39,7 +39,9 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- content section -->
     <RelativeLayout
+        android:id="@+id/section_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/section_AB"
@@ -143,5 +145,26 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </RelativeLayout>
+    
+    
+    <!-- reviews section -->
+        <RelativeLayout
+        android:id="@+id/section_reviews"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/section_AB"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp" >
+        
+            <ListView
+                android:id="@+id/reviewsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"/>
+        
+        </RelativeLayout>
+    
 
 </RelativeLayout>

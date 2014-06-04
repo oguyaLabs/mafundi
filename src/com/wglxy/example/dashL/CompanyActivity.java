@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CompanyActivity extends  DashboardActivity {
@@ -18,6 +19,10 @@ public class CompanyActivity extends  DashboardActivity {
 	private ListView servicesList;
 	private Button btn_contact;
 	private Button btn_reviews;
+	
+	private ListView reviewsList;
+	private View section_content;
+	private View section_reviews;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,10 @@ public class CompanyActivity extends  DashboardActivity {
 		
 		btn_contact.setOnClickListener(clickListener);
 		btn_reviews.setOnClickListener(clickListener);
+		
+		reviewsList = (ListView)findViewById(R.id.reviewsList);
+		section_content = (RelativeLayout)findViewById(R.id.section_content);
+		section_reviews = (RelativeLayout)findViewById(R.id.section_reviews);
 	}
 	
 	View.OnClickListener clickListener = new View.OnClickListener() {
@@ -58,20 +67,38 @@ public class CompanyActivity extends  DashboardActivity {
 				break;
 				
 			case R.id.btn_reviews:	//show reviews
+				toggleReviews(true);
 				break;
 			}
 		}
 	};
 	
+	void toggleReviews(boolean show){
+		if(show){
+			section_reviews.setVisibility(View.VISIBLE);
+			section_content.setVisibility(View.GONE);
+		}else{
+			section_reviews.setVisibility(View.GONE);
+			section_content.setVisibility(View.VISIBLE);
+		}
+	}
 	
 	void setData(){
 		//dummy data
 		String[] data = new String[10];
 		for(int i=0;i<10;i++) data[i] = "After Party Cleaning"; 
 		servicesList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data));
+		reviewsList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data));
+		
 	}
 	
-	
+	@Override
+	public void onBackPressed(){
+		
+		if(section_reviews.getVisibility() == View.VISIBLE){
+			toggleReviews(false);
+		}else super.onBackPressed();
+	}
 	
 	@Override
 	protected void onPause(){
