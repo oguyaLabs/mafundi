@@ -38,7 +38,8 @@ import com.wglxy.example.dashL.adapters.ViewInflaterBaseAdapter;
  * 
  */
 
-public class F2Activity extends DashboardActivity implements OnItemClickListener {
+public class F2Activity extends DashboardActivity implements
+		OnItemClickListener {
 
 	/**
 	 * onCreate
@@ -55,46 +56,46 @@ public class F2Activity extends DashboardActivity implements OnItemClickListener
 	 */
 
 	ListAdapter adapter;
-    private ListView listView;
-	
+	private ListView listView;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_f2);
 		setTitleFromActivityLabel(R.id.title_text);
-		listView = (ListView)findViewById(R.id.featureResultsList);
+
+		listView = (ListView) findViewById(R.id.featureResultsList);
 		listView.setOnItemClickListener(this);
-		
-		//dummy data 
+
+		// dummy data
 		ArrayList<String> data = new ArrayList<String>();
-		for(int i=0; i<10; i++) data.add("");
-		
+		for (int i = 0; i < 10; i++)
+			data.add("");
+
 		adapter = new ListAdapter(new Inflater(), data);
 		listView.setAdapter(adapter);
 	}
-	
-    @Override
-    public void onPause(){
-        super.onPause();
-    }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
-    	super.onRestoreInstanceState(savedInstanceState);
-    	
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
-	
-	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+	}
+
 	// list adapter
 	public class ListAdapter extends ViewInflaterBaseAdapter<String> {
 
@@ -103,7 +104,7 @@ public class F2Activity extends DashboardActivity implements OnItemClickListener
 			super.setInflater(inflater);
 		}
 	}
-	
+
 	// inflater
 	public class Inflater implements ViewInflaterBaseAdapter.ViewInflater {
 
@@ -126,21 +127,26 @@ public class F2Activity extends DashboardActivity implements OnItemClickListener
 						false);
 
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.img_biz_pic = (ImageView)rowView.findViewById(R.id.img_biz_pic);
-				viewHolder.txt_biz_name = (TextView)rowView.findViewById(R.id.txt_biz_name);
-				viewHolder.txt_biz_loc = (TextView)rowView.findViewById(R.id.txt_biz_loc);
-				viewHolder.rb_ratings = (RatingBar)rowView.findViewById(R.id.rb_ratings);
-				
+				viewHolder.img_biz_pic = (ImageView) rowView
+						.findViewById(R.id.img_biz_pic);
+				viewHolder.txt_biz_name = (TextView) rowView
+						.findViewById(R.id.txt_biz_name);
+				viewHolder.txt_biz_loc = (TextView) rowView
+						.findViewById(R.id.txt_biz_loc);
+				viewHolder.rb_ratings = (RatingBar) rowView
+						.findViewById(R.id.rb_ratings);
+
 				rowView.setTag(viewHolder);
 			}
 
 			ViewHolder viewHolder = (ViewHolder) rowView.getTag();
 
 			// TODO set data
-			viewHolder.img_biz_pic.setImageDrawable(parent.getContext().getResources().getDrawable(R.drawable.car_repair));
+			viewHolder.img_biz_pic.setImageDrawable(parent.getContext()
+					.getResources().getDrawable(R.drawable.car_repair));
 			viewHolder.txt_biz_name.setText("Quick Fix Garage");
 			viewHolder.txt_biz_loc.setText("Ngara");
-//			viewHolder.rb_ratings.setRating();
+			// viewHolder.rb_ratings.setRating();
 
 			return rowView;
 		}
@@ -151,9 +157,7 @@ public class F2Activity extends DashboardActivity implements OnItemClickListener
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// TODO Auto-generated method stub
-		
-	}
-	
 
+	}
 
 } // end class

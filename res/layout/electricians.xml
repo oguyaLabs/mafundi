@@ -39,13 +39,6 @@
             <TextView style="@style/TitleBarText" />
 
             <ImageButton
-                android:id="@+id/btn_login_logout"
-                style="@style/TitleBarAction"
-                android:contentDescription="@string/description_about"
-                android:onClick="onClickLoginLogout"
-                android:src="@drawable/ic_login" />
-
-            <ImageButton
                 style="@style/TitleBarAction"
                 android:contentDescription="@string/description_about"
                 android:onClick="onClickAbout"

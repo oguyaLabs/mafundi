@@ -53,6 +53,9 @@ public class F1Activity  extends DashboardActivity implements OnItemClickListene
 		
 		 super.onCreate(savedInstanceState);
 	      setContentView(R.layout.electricians);
+			setTitleFromActivityLabel(R.id.title_text);
+			
+			
 	   myListView= (ListView)this.findViewById(android.R.id.list);
 	      //Spinner spin=(Spinner) findViewById(R.id.spinner);
 		
