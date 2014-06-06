@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2010 Wglxy.com
+    Copyright 2011 Wglxy.com
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,32 +14,61 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/background1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <LinearLayout style="@style/TitleBar">
-        <ImageButton style="@style/TitleBarAction"
-            android:contentDescription="@string/description_home"
-            android:src="@drawable/title_home"
-            android:onClick="onClickHome" />
 
-        <ImageView style="@style/TitleBarSeparator" />
-        <TextView style="@style/TitleBarText" />
-        <ImageButton style="@style/TitleBarAction"
-            android:contentDescription="@string/description_about"
-            android:src="@drawable/title_about"
-            android:onClick="onClickAbout" />
-        <ImageButton style="@style/TitleBarAction"
-            android:contentDescription="@string/description_search"
-            android:src="@drawable/title_search"
-            android:onClick="onClickSearch" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/top_section"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background1"
+        android:orientation="vertical" >
+
+        <LinearLayout style="@style/TitleBar" >
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_home"
+                android:onClick="onClickHome"
+                android:src="@drawable/title_home" />
+
+            <ImageView style="@style/TitleBarSeparator" />
+
+            <TextView style="@style/TitleBarText" />
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_about"
+                android:onClick="onClickAbout"
+                android:src="@drawable/title_about" />
+
+            <ImageButton
+                style="@style/TitleBarAction"
+                android:contentDescription="@string/description_search"
+                android:onClick="onClickSearch"
+                android:src="@drawable/title_search" />
+        </LinearLayout>
     </LinearLayout>
-<TextView  
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" 
-    android:text="@string/feature3_intro"
-    />
-</LinearLayout>
+
+    <!-- search results list item -->
+
+    <ListView
+        android:id="@+id/featureResultsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_section"
+        android:choiceMode="singleChoice" />
+
+    <!-- loading progress -->
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
