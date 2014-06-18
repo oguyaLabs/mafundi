@@ -12,7 +12,7 @@ public class User {
 	private String phone;
 	private String about;
 	private String address;
-	private String stars;
+	private int stars;
 
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -98,11 +98,11 @@ public class User {
 		this.address = address;
 	}
 
-	public String getStars() {
+	public int getStars() {
 		return stars;
 	}
 
-	public void setStars(String stars) {
+	public void setStars(int stars) {
 		this.stars = stars;
 	}
 
