@@ -61,6 +61,11 @@ public class User implements Parcelable{
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return String.valueOf(this.id);
+	}
+
 	public String getEmail() {
 		return email;
 	}
