@@ -5,7 +5,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -14,6 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -41,6 +47,7 @@ public class CompanyActivity extends  DashboardActivity {
 	private ImageView img_profpic;
 	private TextView txt_company_name;
 	private TextView txt_company_location;
+	private TextView txt_no_reviews;
 	private RatingBar rb_ratings;
 	private ListView servicesList;
 	private Button btn_contact;
@@ -55,7 +62,7 @@ public class CompanyActivity extends  DashboardActivity {
 	private boolean loadingError = false;
 	
 	private User company = new User();
-	private ArrayList<Review> reviews;
+	private ArrayList<Review> reviews = new ArrayList<Review>();
 	
 	
 	@Override
@@ -88,6 +95,7 @@ public class CompanyActivity extends  DashboardActivity {
 		img_profpic = (ImageView)findViewById(R.id.img_profpic);
 		txt_company_name = (TextView)findViewById(R.id.txt_company_name);
 		txt_company_location = (TextView)findViewById(R.id.txt_company_location);
+		txt_no_reviews = (TextView)findViewById(R.id.txt_no_reviews);
 		rb_ratings = (RatingBar)findViewById(R.id.rb_ratings);
 		servicesList = (ListView)findViewById(R.id.servicesList);
 		btn_contact = (Button)findViewById(R.id.btn_contact);
@@ -109,16 +117,34 @@ public class CompanyActivity extends  DashboardActivity {
 	View.OnClickListener clickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			// TODO Auto-generated method stub
 			switch(view.getId()){
 			case R.id.btn_contact:	//show contact
-				//TODO add company ID args
 				Bundle args = new Bundle();
 				Intent contactIntent = new Intent(CompanyActivity.this, ContactCompanyActivity.class);
 				startActivity(contactIntent);
 				break;
 			case R.id.btn_reviews:	//show reviews
 				toggleReviews(true);
+				if(reviews.size() > 0) return;
+				try {
+					loadReviews();
+					if(reviews.size() <= 0 && !loadingError){
+						reviewsList.setVisibility(View.GONE);
+						txt_no_reviews.setVisibility(View.VISIBLE);
+						loadingError = false;
+					}else if(reviews.size()>0 && !loadingError){
+						reviewsList.setAdapter(new ArrayAdapter<String>(CompanyActivity.this, android.R.layout.simple_list_item_1, getSubject(reviews)));
+						loadingError = false;
+					}else{
+						toast("Something's not right! Please try again later.");
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					toast("Something's not right! Please try again later.");
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					toast("Something's not right! Please try again later.");
+				}
 				break;
 			}
 		}
@@ -134,6 +160,49 @@ public class CompanyActivity extends  DashboardActivity {
 		}
 	}
 	
+	void loadReviews() throws InterruptedException, ExecutionException{
+		String results = new NetOps().execute(new String[]{String.valueOf(company.getId())}).get();
+		try {
+			reviews = parseJSON(results);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			loadingError = true;
+			toast("Something's not right! Please try again later.");
+		}
+	}
+	
+	ArrayList<Review> parseJSON(String jsonResults) throws JSONException{
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		JSONObject jsonObject = new JSONObject(jsonResults);
+		int status = jsonObject.getInt("status");
+		int numReviews = jsonObject.getInt("numReviews");
+		
+		if(status != 200 || numReviews < 0 ) return reviews;
+		
+		JSONArray arr = jsonObject.getJSONArray("reviews");
+		for(int i=0; i<arr.length(); i++){
+			JSONObject result = arr.getJSONObject(i);
+			Review review = new Review();
+			String from = result.getString("from");
+			String to = result.getString("to");
+			String subject = result.getString("subject");
+			int userID = result.getInt("user_id");
+			review.setFrom(from);
+			review.setTo(to);
+			review.setSubject(subject);
+			review.setUserID(userID);
+			
+			reviews.add(review);
+		}
+		return reviews;
+	}
+	
+	String[] getSubject(ArrayList<Review> reviews){
+		String[] subjects = new String[reviews.size()];
+		for(int i=0; i<reviews.size(); i++) subjects[i] = reviews.get(i).getSubject();
+		return subjects;
+	}
+	
 	void setData(){
 //		img_profpic
 		String business_name = TextUtils.isEmpty(company.getBusiness_name()) ? 
@@ -143,12 +212,6 @@ public class CompanyActivity extends  DashboardActivity {
 		rb_ratings.setRating(company.getStars());
 		
 		servicesList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, company.getServices().split(",")));
-		
-		//dummy data
-		String[] data = new String[10];
-		for(int i=0;i<10;i++) data[i] = "After Party Cleaning"; 
-		
-		reviewsList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data));
 	}
 	
 	String[] getServices(String arrString){
@@ -231,7 +294,7 @@ public class CompanyActivity extends  DashboardActivity {
 		
 		URI buildURI(String companyID) throws URISyntaxException{
 			ArrayList<NameValuePair> args = new ArrayList<NameValuePair>();
-			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_SEARCH));
+			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_REVIEWS));
 			args.add(new BasicNameValuePair(Constants.API_REVIEWS_ARGS_COMPANYID, companyID));
 			return URIUtils.createURI("http", Constants.API_BASE_URL, -1, Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "UTF-8"), null);
 		}

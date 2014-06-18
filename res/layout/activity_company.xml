@@ -165,13 +165,22 @@
         android:paddingRight="5dp"
         android:paddingTop="3dp"
         android:visibility="gone" >
-        
 
         <ListView
             android:id="@+id/reviewsList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:choiceMode="singleChoice" />
+        
+        <TextView
+            android:id="@+id/txt_no_reviews"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="This company hasn't been reviewed yet."/>
+            
     </RelativeLayout>
 
 </RelativeLayout>
