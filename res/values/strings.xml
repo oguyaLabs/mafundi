@@ -49,7 +49,7 @@
     <string name="search_intro">Content for the Search page goes here.</string>
 
     <!-- empty search results -->
-    <string name="search_no_results">Sorry, No Results.</string>
+    <string name="search_no_results">Sorry, No results found.</string>
     <string name="title_activity_company">Company</string>
     <string name="hello_world">Hello world!</string>
 
