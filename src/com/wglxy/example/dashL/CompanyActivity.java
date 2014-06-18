@@ -120,7 +120,10 @@ public class CompanyActivity extends  DashboardActivity {
 			switch(view.getId()){
 			case R.id.btn_contact:	//show contact
 				Bundle args = new Bundle();
+				args.putInt(Constants.KEY_COMPANY_ARGS, companyID);
+				args.putParcelable(Constants.KEY_COMPANY_BUNDLE_ARGS, company);
 				Intent contactIntent = new Intent(CompanyActivity.this, ContactCompanyActivity.class);
+				contactIntent.putExtras(args);
 				startActivity(contactIntent);
 				break;
 			case R.id.btn_reviews:	//show reviews
