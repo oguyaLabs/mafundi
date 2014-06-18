@@ -42,6 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wglxy.example.dashL.constants.Constants;
+import com.wglxy.example.dashL.utils.PrefUtils;
 
 /**
  * This is the base class for activities in the dashboard application.
@@ -180,33 +181,19 @@ public void showLogginLogout(View view){
 }
 
 public boolean isLoggedIn(){
-	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-	boolean loggedIn = prefs.getBoolean(Constants.KEY_USER_LOGGED_IN, false);
-	return loggedIn;
+	return new PrefUtils(this).isLoggedIn();
 }
 
 public String getLoggedInUser(){
-	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-	String username = prefs.getString(Constants.KEY_USER_NAME, "John Doe");
-	return username;
+	return new PrefUtils(this).getLoggedInUser();
 }
 
-public void setLoggedIn(String username, String email, boolean loggedIn){
-	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-	Editor editor = prefs.edit();
-	editor.putString(Constants.KEY_USER_NAME, username);
-	editor.putString(Constants.KEY_USER_EMAIL, email);
-	editor.putBoolean(Constants.KEY_USER_LOGGED_IN, loggedIn);
-	editor.commit();
+public void setLoggedIn(String phone, String email, boolean loggedIn, String first_name, String last_name){
+	new PrefUtils(this).setLoggedIn(phone, email, loggedIn, first_name, last_name);
 }
 
 public void logOutUser(){
-	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-	Editor editor = prefs.edit();
-	editor.putString(Constants.KEY_USER_NAME, "");
-	editor.putString(Constants.KEY_USER_EMAIL, "");
-	editor.putBoolean(Constants.KEY_USER_LOGGED_IN, false);
-	editor.commit();
+	new PrefUtils(this).logOutUser();
 }
 
 public void onClickLoginLogout(View view){
