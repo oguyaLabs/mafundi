@@ -260,19 +260,6 @@ public void onClickFeature (View v)
       case R.id.home_btn_houserepairs :
            startActivity (new Intent(getApplicationContext(), F6Activity.class));
            break;
-           
-      case R.id.btn_search:	//show search activity
-    	  String search_str = ((EditText)findViewById(R.id.edit_search)).getText().toString();
-    	  if(TextUtils.isEmpty(search_str)){
-    		  toast("Please specify what you want to search for.");
-    		  return;
-    	  }
-    	  
-    	  Bundle args = new Bundle();
-    	  args.putString(Constants.KEY_SEARCH_ARGS, search_str);
-    	  Intent searchIntent = new Intent(DashboardActivity.this, SearchActivity.class);
-    	  searchIntent.putExtras(args);
-    	  startActivity(searchIntent);
       default:
     	   break;
     }

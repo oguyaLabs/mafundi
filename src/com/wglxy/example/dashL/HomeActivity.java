@@ -18,7 +18,17 @@ package com.wglxy.example.dashL;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.wglxy.example.dashL.constants.Constants;
 
 /**
  * This is a simple activity that demonstrates the dashboard user interface pattern.
@@ -38,12 +48,59 @@ public class HomeActivity extends DashboardActivity
  *
  */
 
+	EditText edt_search;
+	Button btn_search;
+	
 protected void onCreate(Bundle savedInstanceState) 
 {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
     showLogginLogout(findViewById(R.id.btn_login_logout));
+    
+    edt_search = (EditText)findViewById(R.id.edit_search);
+    btn_search = (Button)findViewById(R.id.btn_search);
+    
+    btn_search.setOnClickListener(clickListener);
+    edt_search.addTextChangedListener(watcher);
 }
+
+TextWatcher watcher = new TextWatcher() {
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {}
+	
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+	
+	@Override
+	public void afterTextChanged(Editable editable) {
+		if (edt_search.getText().length() > 3){
+			btn_search.setEnabled(true);
+		}else{
+			btn_search.setEnabled(false);
+		}
+	}
+};
+
+View.OnClickListener clickListener = new View.OnClickListener() {
+	
+	@Override
+	public void onClick(View view) {
+		switch(view.getId()){
+		case R.id.btn_search:
+			  String search_str = edt_search.getText().toString();
+			  if(TextUtils.isEmpty(search_str)){
+				  toast("Please specify what you want to search for.");
+				  return;
+			  }
+			  Bundle args = new Bundle();
+			  args.putString(Constants.KEY_SEARCH_ARGS, search_str);
+			  Log.e("HomeActivity", "search: "+search_str);
+			  Intent searchIntent = new Intent(HomeActivity.this, SearchActivity.class);
+			  searchIntent.putExtras(args);
+			  startActivity(searchIntent);
+		}
+	}
+};
     
 /**
  * onDestroy
