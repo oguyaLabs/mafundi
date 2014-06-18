@@ -330,6 +330,7 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 		protected void onPreExecute() {
 			super.onPreExecute();
 			loading.setVisibility(View.VISIBLE);
+			empty_results.setVisibility(View.GONE);
 			data.clear();
 //			if (pDlg != null)
 //				pDlg.show();
