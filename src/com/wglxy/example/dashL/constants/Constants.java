@@ -7,6 +7,7 @@ public class Constants {
 	
 	//company activity
 	public static final String KEY_COMPANY_ARGS = "company_args";
+	public static final String KEY_COMPANY_BUNDLE_ARGS = "bundle_args";	
 
 	//A/C auth
 	public static final String KEY_USER_LOGGED_IN = "logged_in";
