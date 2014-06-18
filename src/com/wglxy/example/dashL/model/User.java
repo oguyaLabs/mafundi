@@ -1,6 +1,9 @@
 package com.wglxy.example.dashL.model;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable{
 	
 	private int id;
 	private String email;
@@ -14,10 +17,42 @@ public class User {
 	private String address;
 	private int stars;
 
-	public User() {
-		// TODO Auto-generated constructor stub
+	public User(){}
+	
+	public User(Parcel inParcel){
+		id = inParcel.readInt();
+		email = inParcel.readString();
+		permissions = inParcel.readString();
+		first_name = inParcel.readString();
+		last_name = inParcel.readString();
+		business_name = inParcel.readString();
+		services = inParcel.readString();
+		phone = inParcel.readString();
+		about = inParcel.readString();
+		address = inParcel.readString();
+		stars = inParcel.readInt();
 	}
 
+	@Override
+	public int describeContents(){
+		return 0;
+	}
+	
+	@Override
+    public void writeToParcel(Parcel outParcel, int flags) {
+		outParcel.writeInt(id);
+        outParcel.writeString(email);
+        outParcel.writeString(permissions);
+        outParcel.writeString(first_name);
+        outParcel.writeString(last_name);
+        outParcel.writeString(business_name);
+        outParcel.writeString(services);
+        outParcel.writeString(phone);
+        outParcel.writeString(about);
+        outParcel.writeString(address);
+        outParcel.writeInt(stars);
+    }
+	
 	public int getId() {
 		return id;
 	}
@@ -106,4 +141,12 @@ public class User {
 		this.stars = stars;
 	}
 
+	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
