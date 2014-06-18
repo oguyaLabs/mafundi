@@ -100,8 +100,6 @@ public class LoginActivity extends DashboardActivity {
 				if (validateInput()) {
 					String email = edit_email.getText().toString();
 					String phoneNo = edit_phoneNumber.getText().toString();
-					startLogin(email, phoneNo);
-					
 					try {
 						if(loginUser(email, phoneNo)){
 							toast("login successful");
@@ -278,40 +276,6 @@ public class LoginActivity extends DashboardActivity {
 			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_EMAIL, email));
 			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_PHONE, phoneNumber));
 			return URIUtils.createURI("http", Constants.API_BASE_URL, -1, Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "UTF-8"), null);
-		}
-
-		String callAPI(String email, String phoneNumber) throws ClientProtocolException, IOException, URISyntaxException {
-			InputStream inputStream;
-			HttpClient httpClient;
-			HttpPost httpPost;
-			List<NameValuePair> args = new ArrayList<NameValuePair>();
-
-			httpClient = new DefaultHttpClient();
-			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_LOGIN));
-			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_EMAIL, email));
-			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_PHONE, phoneNumber));
-
-//			http://192.168.43.100/droid/mafundiAPI/v1/endpoint.php:80/?email=username&phone=phoneNo
-//			URI uri = URIUtils.createURI("http", "www.google.com", -1, "/search", URLEncodedUtils.format(qparams, "UTF-8"), null);
-			
-			URI uri = URIUtils.createURI("http", Constants.API_BASE_URL, -1, Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "UTF-8"), null);
-			httpPost = new HttpPost(uri);
-			Log.e(LOG_TAG, "URI: "+httpPost.getURI());
-//			httpPost.setEntity(new UrlEncodedFormEntity(args));
-			HttpResponse response = httpClient.execute(httpPost);
-			inputStream = response.getEntity().getContent();
-
-			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream), 4096);
-			String line;
-			StringBuilder sb = new StringBuilder();
-
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			rd.close();
-			inputStream.close();
-
-			return sb.toString();
 		}
 
 		@Override
