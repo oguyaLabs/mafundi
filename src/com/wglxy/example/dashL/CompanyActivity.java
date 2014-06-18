@@ -64,6 +64,8 @@ public class CompanyActivity extends  DashboardActivity {
 	private User company = new User();
 	private ArrayList<Review> reviews = new ArrayList<Review>();
 	
+	private static final String KEY_USER_OBJ = "company";
+	private static final String KEY_USER_ID = "userID";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class CompanyActivity extends  DashboardActivity {
 		setContentView(R.layout.activity_company);
 		setTitleFromActivityLabel(R.id.title_text);
 		showLogginLogout(findViewById(R.id.btn_login_logout));
+		
+		company = (savedInstanceState != null) ? (User)savedInstanceState.getParcelable(KEY_USER_OBJ) : new User();
+		companyID = (savedInstanceState != null) ? savedInstanceState.getInt(KEY_USER_ID) : 0;
 		
 		//get args data
 		getArgs();
@@ -241,11 +246,15 @@ public class CompanyActivity extends  DashboardActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState){
 		super.onSaveInstanceState(outState);
+		outState.putParcelable(KEY_USER_OBJ, company);
+		outState.putInt(KEY_USER_ID, companyID);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState){
 		super.onRestoreInstanceState(savedInstanceState);
+		company = (savedInstanceState != null) ? (User)savedInstanceState.getParcelable(KEY_USER_OBJ) : new User();
+		companyID = (savedInstanceState != null) ? savedInstanceState.getInt(KEY_USER_ID) : 0;
 	}
 	
 	class NetOps extends AsyncTask<String, Void, String> {
