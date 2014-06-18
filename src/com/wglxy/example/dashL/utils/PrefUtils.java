@@ -1,11 +1,12 @@
 package com.wglxy.example.dashL.utils;
 
-import com.wglxy.example.dashL.constants.Constants;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+
+import com.wglxy.example.dashL.constants.Constants;
+import com.wglxy.example.dashL.model.User;
 
 public class PrefUtils {
 
@@ -21,10 +22,20 @@ public class PrefUtils {
 		return loggedIn;
 	}
 
-	public String getLoggedInUser(){
+	public User getLoggedInUser(){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.activity);
-		String username = prefs.getString(Constants.KEY_USER_PHONE, "John Doe");
-		return username;
+		User user = new User();
+		String phone = prefs.getString(Constants.KEY_USER_PHONE, null);
+		String email = prefs.getString(Constants.KEY_USER_EMAIL, null);
+		String first_name = prefs.getString(Constants.KEY_USER_FIRST_NAME, null);
+		String last_name = prefs.getString(Constants.KEY_USER_LAST_NAME, null);
+		
+		user.setPhone(phone);
+		user.setEmail(email);
+		user.setFirst_name(first_name);
+		user.setLast_name(last_name);
+		
+		return user;
 	}
 
 	public void setLoggedIn(String phone, String email, boolean loggedIn, String first_name, String last_name){
