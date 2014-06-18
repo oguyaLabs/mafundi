@@ -39,6 +39,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -283,7 +284,11 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 			ViewHolder viewHolder = (ViewHolder) rowView.getTag();
 			//viewHolder.img_biz_pic
 			//TODO add imageloader
-			viewHolder.txt_biz_name.setText(data.get(pos).getBusiness_name());
+			
+			String business_name = TextUtils.isEmpty(data.get(pos).getBusiness_name()) ? 
+					data.get(pos).getFirst_name()+" "+data.get(pos).getLast_name() : data.get(pos).getBusiness_name();
+			
+			viewHolder.txt_biz_name.setText(business_name);
 			viewHolder.txt_biz_loc.setText(data.get(pos).getAddress());
 			viewHolder.rb_ratings.setRating(data.get(pos).getStars());
 			return rowView;
@@ -305,6 +310,7 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 		
 		//TODO get company ID/details
 		Bundle args = new Bundle();
+		args.putParcelable(Constants.KEY_COMPANY_BUNDLE_ARGS, data.get(position));
 		Intent companyIntent = new Intent(SearchActivity.this, CompanyActivity.class);
 		companyIntent.putExtras(args);
 		startActivity(companyIntent);
