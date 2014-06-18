@@ -67,7 +67,8 @@ import com.wglxy.example.dashL.net.NetHandler;
  * 
  */
 
-public class SearchActivity extends DashboardActivity implements OnItemClickListener {
+public class SearchActivity extends DashboardActivity implements
+		OnItemClickListener {
 
 	/**
 	 * onCreate
@@ -82,24 +83,24 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 	 * @param savedInstanceState
 	 *            Bundle
 	 */
-	
+
 	private static final String LOG_TAG = "SearchActivity";
-	
+
 	SearchListAdapter adapter;
-    private ListView listView;
-    private String searchStr;
-    private ProgressBar loading;
-    private TextView empty_results;
-    
-    private View searchBar;
-    private EditText edt_search;
-    private Button btn_search;
-    
-    private ArrayList<User> data = new ArrayList<User>();;
-    private boolean loadingError = false;
-    
+	private ListView listView;
+	private String searchStr;
+	private ProgressBar loading;
+	private TextView empty_results;
+
+	private View searchBar;
+	private EditText edt_search;
+	private Button btn_search;
+
+	private ArrayList<User> data = new ArrayList<User>();;
+	private boolean loadingError = false;
+
 	private static final String KEY_USER_OBJ = "company";
-	private static final String KEY_SEARCH_QUERY = "query"; 
+	private static final String KEY_SEARCH_QUERY = "query";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,83 +109,89 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 		showLogginLogout(findViewById(R.id.btn_login_logout));
 
 		initUI();
-		if(savedInstanceState != null && savedInstanceState.containsKey(KEY_SEARCH_QUERY) 
-				&& savedInstanceState.containsKey(KEY_USER_OBJ)){
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey(KEY_SEARCH_QUERY)
+				&& savedInstanceState.containsKey(KEY_USER_OBJ)) {
 			searchStr = savedInstanceState.getString(KEY_SEARCH_QUERY);
 			data = savedInstanceState.getParcelableArrayList(KEY_USER_OBJ);
 		}
-		
-		try{
+
+		try {
 			Bundle args = getIntent().getExtras();
 			searchStr = args.getString(Constants.KEY_SEARCH_ARGS);
-			Log.e(LOG_TAG, "search query: "+searchStr);
+			Log.e(LOG_TAG, "search query: " + searchStr);
 			doSearch(searchStr);
-		}catch(Exception ex){
-			Log.e(LOG_TAG, "no search args",ex.getCause());
+		} catch (Exception ex) {
+			Log.e(LOG_TAG, "no search args", ex.getCause());
 			searchBar.setVisibility(View.VISIBLE);
 			edt_search.requestFocus();
 		}
-		 
+
 	}
-	
-	void initUI(){
-		listView = (ListView)findViewById(R.id.searchResultsList);
+
+	void initUI() {
+		listView = (ListView) findViewById(R.id.searchResultsList);
 		listView.setOnItemClickListener(this);
-		loading = (ProgressBar)findViewById(R.id.loading);
-		empty_results = (TextView)findViewById(R.id.empty_results);
-		searchBar = (LinearLayout)findViewById(R.id.search_bar);
-	    edt_search = (EditText)findViewById(R.id.edt_search);
-	    btn_search = (Button)findViewById(R.id.btn_search);
-	    
-	    btn_search.setOnClickListener(clickListener);
-	    edt_search.addTextChangedListener(watcher);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		empty_results = (TextView) findViewById(R.id.empty_results);
+		searchBar = (LinearLayout) findViewById(R.id.search_bar);
+		edt_search = (EditText) findViewById(R.id.edt_search);
+		btn_search = (Button) findViewById(R.id.btn_search);
+
+		btn_search.setOnClickListener(clickListener);
+		edt_search.addTextChangedListener(watcher);
 	}
-	
+
 	TextWatcher watcher = new TextWatcher() {
 		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
+
 		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-		
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
 		@Override
 		public void afterTextChanged(Editable editable) {
-			if (edt_search.getText().length() > 3){
+			if (edt_search.getText().length() > 3) {
 				btn_search.setEnabled(true);
-			}else{
+			} else {
 				btn_search.setEnabled(false);
 			}
 		}
 	};
-	
+
 	View.OnClickListener clickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			switch(view.getId()){
+			switch (view.getId()) {
 			case R.id.btn_search:
-				String query = edt_search.getText().toString(); 
-				if(query.length() > 3){
+				String query = edt_search.getText().toString();
+				if (query.length() > 3) {
 					doSearch(query);
 				}
 				break;
-			default:break;
+			default:
+				break;
 			}
 		}
 	};
-	
-	void setListData(){
+
+	void setListData() {
 		adapter = new SearchListAdapter(new Inflater(), data);
 		listView.setAdapter(adapter);
 	}
-	
-	void doSearch(String queryStr){
-		String[] args= {queryStr};
+
+	void doSearch(String queryStr) {
+		String[] args = { queryStr };
 		try {
 			String results = new NetOps().execute(args).get();
 			data = parseJSON(results);
-			if(data.size() != 0 && !loadingError){
+			if (data.size() != 0 && !loadingError) {
 				setListData();
-			}else{
+			} else {
 				toast("Sorry, no results found matching your search criteria");
 				empty_results.setVisibility(View.VISIBLE);
 			}
@@ -199,30 +206,30 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 			toast("something's not right! Please try again later.");
 		}
 	}
-	
-	ArrayList<User> parseJSON(String results) throws JSONException{
+
+	ArrayList<User> parseJSON(String results) throws JSONException {
 		ArrayList<User> list = new ArrayList<User>();
 		JSONObject jsonResult = new JSONObject(results);
-		int  status = jsonResult.getInt("status");
+		int status = jsonResult.getInt("status");
 		int numResults = jsonResult.getInt("numResults");
-		
-		if(status != 200 && numResults <= 0)
+
+		if (status != 200 && numResults <= 0)
 			return list;
-		else{
+		else {
 			JSONArray arr = jsonResult.getJSONArray("results");
-			Log.e(LOG_TAG, "results: "+arr.length());
-			
-			for(int i=0; i<arr.length(); i++){
+			Log.e(LOG_TAG, "results: " + arr.length());
+
+			for (int i = 0; i < arr.length(); i++) {
 				JSONObject jsonObject = arr.getJSONObject(i);
 				User user = new User();
 				int id = jsonObject.getInt("id");
 				String email = jsonObject.getString("email");
-				String first_name  = jsonObject.getString("first_name");
+				String first_name = jsonObject.getString("first_name");
 				String last_name = jsonObject.getString("last_name");
-				String business_name  = jsonObject.getString("business_name");
+				String business_name = jsonObject.getString("business_name");
 				String services = jsonObject.getString("services");
 				String address = jsonObject.getString("address");
-				
+
 				user.setId(id);
 				user.setEmail(email);
 				user.setFirst_name(first_name);
@@ -230,44 +237,46 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 				user.setBusiness_name(business_name);
 				user.setAddress(address);
 				user.setServices(services);
-				
+
 				list.add(user);
 			}
 			return list;
 		}
 	}
-	
-    @Override
-    public void onPause(){
-        super.onPause();
-    }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-        storeTemp();
-        outState.putString(KEY_SEARCH_QUERY, searchStr);
-        outState.putParcelableArrayList(KEY_USER_OBJ, data);
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
-    	super.onRestoreInstanceState(savedInstanceState);
-		if(savedInstanceState != null && savedInstanceState.containsKey(KEY_SEARCH_QUERY) 
-				&& savedInstanceState.containsKey(KEY_USER_OBJ)){
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		storeTemp();
+		outState.putString(KEY_SEARCH_QUERY, searchStr);
+		outState.putParcelableArrayList(KEY_USER_OBJ, data);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey(KEY_SEARCH_QUERY)
+				&& savedInstanceState.containsKey(KEY_USER_OBJ)) {
 			searchStr = savedInstanceState.getString(KEY_SEARCH_QUERY);
 			data = savedInstanceState.getParcelableArrayList(KEY_USER_OBJ);
 		}
-    }
-    
-    void storeTemp(){
-    	searchStr = searchBar.getVisibility() == View.VISIBLE ? edt_search.getText().toString() : searchStr;
-    }
+	}
+
+	void storeTemp() {
+		searchStr = searchBar.getVisibility() == View.VISIBLE ? edt_search
+				.getText().toString() : searchStr;
+	}
 
 	// inflater
 	public class Inflater implements ViewInflaterBaseAdapter.ViewInflater {
@@ -286,23 +295,30 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 			View rowView = ConvertView;
 
 			if (rowView == null) {
-				rowView = inflater.inflate(R.layout.list_item_search, parent, false);
+				rowView = inflater.inflate(R.layout.list_item_search, parent,
+						false);
 
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.img_biz_pic = (ImageView)rowView.findViewById(R.id.img_biz_pic);
-				viewHolder.txt_biz_name = (TextView)rowView.findViewById(R.id.txt_biz_name);
-				viewHolder.txt_biz_loc = (TextView)rowView.findViewById(R.id.txt_biz_loc);
-				viewHolder.rb_ratings = (RatingBar)rowView.findViewById(R.id.rb_ratings);
+				viewHolder.img_biz_pic = (ImageView) rowView
+						.findViewById(R.id.img_biz_pic);
+				viewHolder.txt_biz_name = (TextView) rowView
+						.findViewById(R.id.txt_biz_name);
+				viewHolder.txt_biz_loc = (TextView) rowView
+						.findViewById(R.id.txt_biz_loc);
+				viewHolder.rb_ratings = (RatingBar) rowView
+						.findViewById(R.id.rb_ratings);
 
 				rowView.setTag(viewHolder);
 			}
 			ViewHolder viewHolder = (ViewHolder) rowView.getTag();
-			//viewHolder.img_biz_pic
-			//TODO add imageloader
-			
-			String business_name = TextUtils.isEmpty(data.get(pos).getBusiness_name()) ? 
-					data.get(pos).getFirst_name()+" "+data.get(pos).getLast_name() : data.get(pos).getBusiness_name();
-			
+			// viewHolder.img_biz_pic
+			// TODO add imageloader
+
+			String business_name = TextUtils.isEmpty(data.get(pos)
+					.getBusiness_name()) ? data.get(pos).getFirst_name() + " "
+					+ data.get(pos).getLast_name() : data.get(pos)
+					.getBusiness_name();
+
 			viewHolder.txt_biz_name.setText(business_name);
 			viewHolder.txt_biz_loc.setText(data.get(pos).getAddress());
 			viewHolder.rb_ratings.setRating(data.get(pos).getStars());
@@ -322,22 +338,24 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
-		//TODO get company ID/details
+
+		// TODO get company ID/details
 		Bundle args = new Bundle();
-		args.putParcelable(Constants.KEY_COMPANY_BUNDLE_ARGS, data.get(position));
-		Intent companyIntent = new Intent(SearchActivity.this, CompanyActivity.class);
+		args.putParcelable(Constants.KEY_COMPANY_BUNDLE_ARGS,
+				data.get(position));
+		Intent companyIntent = new Intent(SearchActivity.this,
+				CompanyActivity.class);
 		companyIntent.putExtras(args);
 		startActivity(companyIntent);
 	}
-	
+
 	class NetOps extends AsyncTask<String, Void, String> {
 		InputStream inputStream;
 		HttpClient httpclient;
 		HttpPost httppost;
 		List<NameValuePair> nameValuePairs;
 		StringBuffer sb;
-		
+
 		Runnable showToast = new Runnable() {
 			@Override
 			public void run() {
@@ -346,15 +364,14 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 			}
 		};
 
-
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			loading.setVisibility(View.VISIBLE);
 			empty_results.setVisibility(View.GONE);
 			data.clear();
-//			if (pDlg != null)
-//				pDlg.show();
+			// if (pDlg != null)
+			// pDlg.show();
 		}
 
 		@Override
@@ -365,37 +382,41 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 			try {
 				URI uri = buildURI(searchStr);
 				results = new NetHandler().callAPI(uri);
-				Log.e(LOG_TAG, "result:"+results);
+				Log.e(LOG_TAG, "result:" + results);
 			} catch (ClientProtocolException e) {
 				loadingError = true;
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			} catch (IOException e) {
 				loadingError = true;
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			} catch (URISyntaxException e) {
 				loadingError = true;
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			}
 			return results;
 		}
-		
-		URI buildURI(String searchStr) throws URISyntaxException{
+
+		URI buildURI(String searchStr) throws URISyntaxException {
 			ArrayList<NameValuePair> args = new ArrayList<NameValuePair>();
-			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_SEARCH));
-			args.add(new BasicNameValuePair(Constants.API_SEARCH_ARGS_QUERY, searchStr));
-			return URIUtils.createURI("http", Constants.API_BASE_URL, -1, Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "UTF-8"), null);
+			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG,
+					Constants.API_ENDPOINT_SEARCH));
+			args.add(new BasicNameValuePair(Constants.API_SEARCH_ARGS_QUERY,
+					searchStr));
+			return URIUtils.createURI("http", Constants.API_BASE_URL, -1,
+					Constants.API_ENDPOINT_URL,
+					URLEncodedUtils.format(args, "UTF-8"), null);
 		}
 
 		@Override
 		protected void onPostExecute(String results) {
 			super.onPostExecute(results);
 			loading.setVisibility(View.GONE);
-//			if (pDlg != null)
-//				pDlg.dismiss();
+			// if (pDlg != null)
+			// pDlg.dismiss();
 		}
 
-	}	
+	}
 }

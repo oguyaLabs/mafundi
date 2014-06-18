@@ -58,33 +58,31 @@
                 android:src="@drawable/title_search" />
         </LinearLayout>
     </LinearLayout>
-    
+
     <!-- search bar -->
+
     <LinearLayout
         android:id="@+id/search_bar"
-        android:visibility="gone"
-        android:layout_below="@id/top_section"
-        android:layout_width="match_parent" 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
+        android:layout_below="@id/top_section"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
         <EditText
             android:id="@+id/edt_search"
-            android:hint="search"
-            android:inputType="text"
-            android:layout_weight=".9"
             android:layout_width="0dp"
-            android:layout_height="match_parent" 
-            />
-        
+            android:layout_height="match_parent"
+            android:layout_weight=".9"
+            android:hint="search"
+            android:inputType="text" />
+
         <Button
             android:id="@+id/btn_search"
-            android:text="Search"
-            android:enabled="false"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-            
-        
+            android:layout_height="match_parent"
+            android:enabled="false"
+            android:text="Search" />
     </LinearLayout>
 
     <!-- search results list item -->
