@@ -264,5 +264,5 @@ public class ContactCompanyActivity extends DashboardActivity {
 				toast("Sorry we're unable to send your message. Please try again later");
 			}
 		}
-	}	
+	}
 }
