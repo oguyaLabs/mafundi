@@ -47,7 +47,7 @@ public class LoginActivity extends DashboardActivity {
 	TextView txt_signUp;
 	TextView txt_login_status;
 	ProgressDialog pDlg;
-	
+
 	boolean loginError = false;
 
 	@Override
@@ -101,12 +101,13 @@ public class LoginActivity extends DashboardActivity {
 					String email = edit_email.getText().toString();
 					String phoneNo = edit_phoneNumber.getText().toString();
 					try {
-						if(loginUser(email, phoneNo)){
+						if (loginUser(email, phoneNo)) {
 							toast("login successful");
 							txt_login_status.setVisibility(View.GONE);
-							startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+							startActivity(new Intent(LoginActivity.this,
+									HomeActivity.class));
 							finish();
-						}else{
+						} else {
 							toast("invalid login");
 							txt_login_status.setVisibility(View.VISIBLE);
 						}
@@ -131,29 +132,30 @@ public class LoginActivity extends DashboardActivity {
 			}
 		}
 	};
-	
-	boolean loginUser(String email, String phoneNo) throws JSONException{
+
+	boolean loginUser(String email, String phoneNo) throws JSONException {
 		String json = startLogin(email, phoneNo);
 		User user;
-		
+
 		user = processResults(json);
-		if(user != null){
-			//login successfull
+		if (user != null) {
+			// login successfull
 			user = processResults(json);
-			super.setLoggedIn(user.getPhone(), user.getEmail(), true, user.getFirst_name(), user.getLast_name());
+			super.setLoggedIn(user.getPhone(), user.getEmail(), true,
+					user.getFirst_name(), user.getLast_name());
 			return true;
-		}else{
+		} else {
 			txt_login_status.setVisibility(View.VISIBLE);
 			return false;
 		}
 	}
-	
-	String startLogin(String email, String phoneNo){
-		String[] args = new String[]{email, phoneNo};
+
+	String startLogin(String email, String phoneNo) {
+		String[] args = new String[] { email, phoneNo };
 		String jsonResult = null;
 		try {
-			 jsonResult = new NetOps().execute(args).get();
-			Log.e(LOG_TAG, "res:"+jsonResult);
+			jsonResult = new NetOps().execute(args).get();
+			Log.e(LOG_TAG, "res:" + jsonResult);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,24 +166,25 @@ public class LoginActivity extends DashboardActivity {
 		return jsonResult;
 	}
 
-	User processResults(String results) throws JSONException{
-		if(results == null) return null;
+	User processResults(String results) throws JSONException {
+		if (results == null)
+			return null;
 		User user = new User();
-		
+
 		JSONObject jsonObject = new JSONObject(results);
 		String status = jsonObject.getString("status");
 		String statusMessage = jsonObject.getString("statusMessage");
-		
-		if(Integer.parseInt(status) != 200){
+
+		if (Integer.parseInt(status) != 200) {
 			return null;
-		}else{
+		} else {
 			JSONObject jsonUser = jsonObject.getJSONObject("userDetails");
 			String id = jsonUser.getString("id");
 			String email = jsonUser.getString("email");
 			String phone = jsonUser.getString("phone");
 			String first_name = jsonUser.getString("first_name");
 			String last_name = jsonUser.getString("last_name");
-			
+
 			user.setId(Integer.parseInt(id));
 			user.setEmail(email);
 			user.setPhone(phone);
@@ -190,7 +193,7 @@ public class LoginActivity extends DashboardActivity {
 			return user;
 		}
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -218,7 +221,7 @@ public class LoginActivity extends DashboardActivity {
 		HttpPost httppost;
 		List<NameValuePair> nameValuePairs;
 		StringBuffer sb;
-		
+
 		Runnable showToast = new Runnable() {
 			@Override
 			public void run() {
@@ -226,7 +229,6 @@ public class LoginActivity extends DashboardActivity {
 				toast("Unable to connect to the internet");
 			}
 		};
-
 
 		@Override
 		protected void onPreExecute() {
@@ -245,37 +247,43 @@ public class LoginActivity extends DashboardActivity {
 			try {
 				URI uri = buildURI(email, phoneNumber);
 				results = new NetHandler().callAPI(uri);
-				Log.e(LOG_TAG, "result:"+results);
-				
+				Log.e(LOG_TAG, "result:" + results);
+
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				loginError = true;
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				loginError = true;
 				e.printStackTrace();
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 				loginError = true;
 				e.printStackTrace();
-				Log.e(LOG_TAG, "Api error: "+e.getMessage());
+				Log.e(LOG_TAG, "Api error: " + e.getMessage());
 				runOnUiThread(showToast);
 			}
 			// TODO Auto-generated method stub
 			return results;
 		}
-		
-		URI buildURI(String email, String phoneNumber) throws URISyntaxException{
+
+		URI buildURI(String email, String phoneNumber)
+				throws URISyntaxException {
 			ArrayList<NameValuePair> args = new ArrayList<NameValuePair>();
-			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_LOGIN));
-			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_EMAIL, email));
-			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_PHONE, phoneNumber));
-			return URIUtils.createURI("http", Constants.API_BASE_URL, -1, Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "UTF-8"), null);
+			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG,
+					Constants.API_ENDPOINT_LOGIN));
+			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_EMAIL,
+					email));
+			args.add(new BasicNameValuePair(Constants.API_LOGIN_ARGS_PHONE,
+					phoneNumber));
+			return URIUtils.createURI("http", Constants.API_BASE_URL, -1,
+					Constants.API_ENDPOINT_URL,
+					URLEncodedUtils.format(args, "UTF-8"), null);
 		}
 
 		@Override
