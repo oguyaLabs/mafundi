@@ -52,6 +52,7 @@
         <activity
             android:name="com.wglxy.example.dashL.SearchActivity"
             android:label="@string/title_search"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@style/Theme.D1" />
         <activity
             android:name="com.wglxy.example.dashL.Fetch_electricians"
@@ -100,12 +101,8 @@
     </application>
 
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PRIVILEGED" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.CALL_PHONE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
 </manifest>

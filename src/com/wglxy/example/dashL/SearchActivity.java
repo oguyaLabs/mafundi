@@ -42,10 +42,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -97,8 +95,11 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
     private EditText edt_search;
     private Button btn_search;
     
-    private ArrayList<User> data;
+    private ArrayList<User> data = new ArrayList<User>();;
     private boolean loadingError = false;
+    
+	private static final String KEY_USER_OBJ = "company";
+	private static final String KEY_SEARCH_QUERY = "query"; 
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -107,7 +108,11 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
 		showLogginLogout(findViewById(R.id.btn_login_logout));
 
 		initUI();
-		data = new ArrayList<User>();
+		if(savedInstanceState != null && savedInstanceState.containsKey(KEY_SEARCH_QUERY) 
+				&& savedInstanceState.containsKey(KEY_USER_OBJ)){
+			searchStr = savedInstanceState.getString(KEY_SEARCH_QUERY);
+			data = savedInstanceState.getParcelableArrayList(KEY_USER_OBJ);
+		}
 		
 		try{
 			Bundle args = getIntent().getExtras();
@@ -245,14 +250,24 @@ public class SearchActivity extends DashboardActivity implements OnItemClickList
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
+        storeTemp();
+        outState.putString(KEY_SEARCH_QUERY, searchStr);
+        outState.putParcelableArrayList(KEY_USER_OBJ, data);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
     	super.onRestoreInstanceState(savedInstanceState);
-    	
+		if(savedInstanceState != null && savedInstanceState.containsKey(KEY_SEARCH_QUERY) 
+				&& savedInstanceState.containsKey(KEY_USER_OBJ)){
+			searchStr = savedInstanceState.getString(KEY_SEARCH_QUERY);
+			data = savedInstanceState.getParcelableArrayList(KEY_USER_OBJ);
+		}
     }
-
+    
+    void storeTemp(){
+    	searchStr = searchBar.getVisibility() == View.VISIBLE ? edt_search.getText().toString() : searchStr;
+    }
 
 	// inflater
 	public class Inflater implements ViewInflaterBaseAdapter.ViewInflater {
