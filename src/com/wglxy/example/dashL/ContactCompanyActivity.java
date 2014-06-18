@@ -53,6 +53,7 @@ public class ContactCompanyActivity extends DashboardActivity {
 	
 	private static final String KEY_SUBJECT = "subject";
 	private static final String KEY_MESSAGE = "message";
+	private static final String KEY_USER_OBJ = "user_obj";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,12 @@ public class ContactCompanyActivity extends DashboardActivity {
 		setContentView(R.layout.activity_contact_company);
 		setTitleFromActivityLabel(R.id.title_text);
 		showLogginLogout(findViewById(R.id.btn_login_logout));
+		
+		if(savedInstanceState != null){
+			message = savedInstanceState.getString(KEY_MESSAGE);
+			subject = savedInstanceState.getString(KEY_SUBJECT);
+		}
+		company = (savedInstanceState != null) ? (User)savedInstanceState.getParcelable(KEY_USER_OBJ) : new User();
 		
 		getArgs();
 		
@@ -138,8 +145,6 @@ public class ContactCompanyActivity extends DashboardActivity {
 		message = edit_message.getText().toString();
 	}
 	
-
-	
 	@Override
 	protected void onPause(){
 		super.onPause();
@@ -158,14 +163,18 @@ public class ContactCompanyActivity extends DashboardActivity {
 		storeTemp();
 		outState.putString(KEY_MESSAGE, message);
 		outState.putString(KEY_SUBJECT, subject);
+		outState.putParcelable(KEY_USER_OBJ, company);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState){
 		super.onRestoreInstanceState(savedInstanceState);
 		
-		message = savedInstanceState.getString(KEY_MESSAGE);
-		subject = savedInstanceState.getString(KEY_SUBJECT);
+		if(savedInstanceState != null){
+			message = savedInstanceState.getString(KEY_MESSAGE);
+			subject = savedInstanceState.getString(KEY_SUBJECT);
+			company = savedInstanceState.getParcelable(KEY_USER_OBJ);
+		}
 	}
 	
 	class NetOps extends AsyncTask<String, Void, String> {
