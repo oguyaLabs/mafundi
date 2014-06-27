@@ -229,6 +229,7 @@ public class SearchActivity extends DashboardActivity implements
 				String business_name = jsonObject.getString("business_name");
 				String services = jsonObject.getString("services");
 				String address = jsonObject.getString("address");
+				int stars = jsonObject.getInt("stars");
 
 				user.setId(id);
 				user.setEmail(email);
@@ -237,6 +238,7 @@ public class SearchActivity extends DashboardActivity implements
 				user.setBusiness_name(business_name);
 				user.setAddress(address);
 				user.setServices(services);
+				user.setStars(stars);
 
 				list.add(user);
 			}

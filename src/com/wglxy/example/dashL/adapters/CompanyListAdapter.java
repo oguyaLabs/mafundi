@@ -121,7 +121,8 @@ public class CompanyListAdapter extends ViewInflaterBaseAdapter<String> {
 			
 			viewHolder.txt_biz_name.setText(biz_name);
 			viewHolder.txt_biz_loc.setText(biz_loc);
-//			viewHolder.rb_ratings.setRating();
+			viewHolder.rb_ratings.setMax(5);
+			viewHolder.rb_ratings.setRating(2);
 
 			return rowView;
 		}
