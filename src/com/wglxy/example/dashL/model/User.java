@@ -16,6 +16,7 @@ public class User implements Parcelable{
 	private String about;
 	private String address;
 	private int stars;
+	private String image;
 
 	public User(){}
 	
@@ -31,6 +32,7 @@ public class User implements Parcelable{
 		about = inParcel.readString();
 		address = inParcel.readString();
 		stars = inParcel.readInt();
+		image = inParcel.readString();
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class User implements Parcelable{
         outParcel.writeString(about);
         outParcel.writeString(address);
         outParcel.writeInt(stars);
+        outParcel.writeString(image);
     }
 	
 	public int getId() {
@@ -144,6 +147,14 @@ public class User implements Parcelable{
 
 	public void setStars(int stars) {
 		this.stars = stars;
+	}
+	
+	public void setImage(String image){
+		this.image = image;
+	}
+	
+	public String getImage(){
+		return this.image;
 	}
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

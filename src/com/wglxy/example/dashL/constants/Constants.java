@@ -20,6 +20,7 @@ public class Constants {
 //	public static final String API_BASE_URL = "http://107.170.165.53/mafundis-app/app/";
 //	public static final String API_BASE_URL = "192.168.43.100/droid/mafundiAPI/v1";
 	public static final String API_BASE_URL = "192.168.7.66/droid/mafundiAPI/v1";
+	public static final String API_BASE_IMAGE_URL = "http://mafundis.com/uploads/users/image/";
 	public static final String API_ENDPOINT_URL = "/endpoint.php";
 	public static final String API_ENDPOINT_ARG = "endpoint";
 	public static final String API_ENDPOINT_LOGIN = "login";

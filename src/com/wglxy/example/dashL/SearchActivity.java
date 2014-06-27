@@ -35,7 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -59,6 +62,7 @@ import android.widget.TextView;
 import com.wglxy.example.dashL.adapters.ViewInflaterBaseAdapter;
 import com.wglxy.example.dashL.constants.Constants;
 import com.wglxy.example.dashL.model.User;
+import com.wglxy.example.dashL.net.ImageDownloader;
 import com.wglxy.example.dashL.net.NetHandler;
 
 /**
@@ -101,6 +105,7 @@ public class SearchActivity extends DashboardActivity implements
 
 	private static final String KEY_USER_OBJ = "company";
 	private static final String KEY_SEARCH_QUERY = "query";
+	ProgressDialog pDlg;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -126,7 +131,6 @@ public class SearchActivity extends DashboardActivity implements
 			searchBar.setVisibility(View.VISIBLE);
 			edt_search.requestFocus();
 		}
-
 	}
 
 	void initUI() {
@@ -137,9 +141,13 @@ public class SearchActivity extends DashboardActivity implements
 		searchBar = (LinearLayout) findViewById(R.id.search_bar);
 		edt_search = (EditText) findViewById(R.id.edt_search);
 		btn_search = (Button) findViewById(R.id.btn_search);
-
 		btn_search.setOnClickListener(clickListener);
 		edt_search.addTextChangedListener(watcher);
+		
+		pDlg = new ProgressDialog(SearchActivity.this);
+		pDlg.setIndeterminate(true);
+		pDlg.setCancelable(true);
+		pDlg.setMessage("Please wait...");
 	}
 
 	TextWatcher watcher = new TextWatcher() {
@@ -204,10 +212,14 @@ public class SearchActivity extends DashboardActivity implements
 		} catch (JSONException e) {
 			loadingError = true;
 			toast("something's not right! Please try again later.");
+		}catch(NullPointerException e){
+			loadingError = true;
+			toast("something's not right! Please try again later.");			
 		}
+		
 	}
 
-	ArrayList<User> parseJSON(String results) throws JSONException {
+	ArrayList<User> parseJSON(String results) throws JSONException,NullPointerException {
 		ArrayList<User> list = new ArrayList<User>();
 		JSONObject jsonResult = new JSONObject(results);
 		int status = jsonResult.getInt("status");
@@ -230,6 +242,8 @@ public class SearchActivity extends DashboardActivity implements
 				String services = jsonObject.getString("services");
 				String address = jsonObject.getString("address");
 				int stars = jsonObject.getInt("stars");
+				String image = Constants.API_BASE_IMAGE_URL+jsonObject.getString("image");
+				Log.e(LOG_TAG, "image: "+image);
 
 				user.setId(id);
 				user.setEmail(email);
@@ -239,6 +253,7 @@ public class SearchActivity extends DashboardActivity implements
 				user.setAddress(address);
 				user.setServices(services);
 				user.setStars(stars);
+				user.setImage(image);
 
 				list.add(user);
 			}
@@ -313,9 +328,19 @@ public class SearchActivity extends DashboardActivity implements
 				rowView.setTag(viewHolder);
 			}
 			ViewHolder viewHolder = (ViewHolder) rowView.getTag();
-			// viewHolder.img_biz_pic
-			// TODO add imageloader
-
+			String url = data.get(pos).getImage();
+			Bitmap def_logo = BitmapFactory.decodeResource(SearchActivity.this.getResources(), R.drawable.car_repair);
+			Bitmap logo = null;
+			try {
+				logo = new ImageDownloader(viewHolder.img_biz_pic, url).execute().get();
+			} catch (InterruptedException e) {
+				Log.e(LOG_TAG, "imageDownload error:"+e);
+			} catch (ExecutionException e) {
+				Log.e(LOG_TAG, "imageDownload error:"+e);
+			}
+			
+			viewHolder.img_biz_pic.setImageBitmap(logo != null ?  logo : def_logo );
+			
 			String business_name = TextUtils.isEmpty(data.get(pos)
 					.getBusiness_name()) ? data.get(pos).getFirst_name() + " "
 					+ data.get(pos).getLast_name() : data.get(pos)
@@ -372,8 +397,8 @@ public class SearchActivity extends DashboardActivity implements
 			loading.setVisibility(View.VISIBLE);
 			empty_results.setVisibility(View.GONE);
 			data.clear();
-			// if (pDlg != null)
-			// pDlg.show();
+			 if (pDlg != null)
+				 	pDlg.show();
 		}
 
 		@Override
@@ -416,8 +441,8 @@ public class SearchActivity extends DashboardActivity implements
 		protected void onPostExecute(String results) {
 			super.onPostExecute(results);
 			loading.setVisibility(View.GONE);
-			// if (pDlg != null)
-			// pDlg.dismiss();
+			 if (pDlg != null)
+			 pDlg.dismiss();
 		}
 
 	}
