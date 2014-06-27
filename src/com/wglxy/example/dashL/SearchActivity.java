@@ -194,29 +194,7 @@ public class SearchActivity extends DashboardActivity implements
 
 	void doSearch(String queryStr) {
 		String[] args = { queryStr };
-		try {
-			String results = new NetOps().execute(args).get();
-			data = parseJSON(results);
-			if (data.size() != 0 && !loadingError) {
-				setListData();
-			} else {
-				toast("Sorry, no results found matching your search criteria");
-				empty_results.setVisibility(View.VISIBLE);
-			}
-		} catch (InterruptedException e) {
-			loadingError = true;
-			toast("something's not right! Please try again later.");
-		} catch (ExecutionException e) {
-			loadingError = true;
-			toast("something's not right! Please try again later.");
-		} catch (JSONException e) {
-			loadingError = true;
-			toast("something's not right! Please try again later.");
-		}catch(NullPointerException e){
-			loadingError = true;
-			toast("something's not right! Please try again later.");			
-		}
-		
+			new NetOps().execute(args);
 	}
 
 	ArrayList<User> parseJSON(String results) throws JSONException,NullPointerException {
@@ -397,8 +375,7 @@ public class SearchActivity extends DashboardActivity implements
 			loading.setVisibility(View.VISIBLE);
 			empty_results.setVisibility(View.GONE);
 			data.clear();
-			 if (pDlg != null)
-				 	pDlg.show();
+//			 if (pDlg != null) pDlg.show();
 		}
 
 		@Override
@@ -440,9 +417,25 @@ public class SearchActivity extends DashboardActivity implements
 		@Override
 		protected void onPostExecute(String results) {
 			super.onPostExecute(results);
+			
+			try {
+				data = parseJSON(results);
+				if (data.size() != 0 && !loadingError) {
+					setListData();
+				} else {
+					toast("Sorry, no results found matching your search criteria");
+					empty_results.setVisibility(View.VISIBLE);
+				}
+			} catch (JSONException e) {
+				loadingError = true;
+				toast("something's not right! Please try again later.");
+			}catch(NullPointerException e){
+				loadingError = true;
+				toast("something's not right! Please try again later.");			
+			}			
+			
 			loading.setVisibility(View.GONE);
-			 if (pDlg != null)
-			 pDlg.dismiss();
+//			 if (pDlg != null) pDlg.dismiss();
 		}
 
 	}
