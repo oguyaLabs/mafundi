@@ -23,6 +23,8 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 import com.wglxy.example.dashL.constants.Constants;
 import com.wglxy.example.dashL.model.Review;
 import com.wglxy.example.dashL.model.User;
+import com.wglxy.example.dashL.net.ImageDownloader;
 import com.wglxy.example.dashL.net.NetHandler;
 
 public class CompanyActivity extends DashboardActivity {
@@ -222,7 +225,18 @@ public class CompanyActivity extends DashboardActivity {
 	}
 
 	void setData() {
-		// img_profpic
+		String url = company.getImage();
+		Bitmap def_logo = BitmapFactory.decodeResource(CompanyActivity.this.getResources(), R.drawable.car_repair);
+		Bitmap logo = null;
+		try {
+			logo = new ImageDownloader(img_profpic, url).execute().get();
+		} catch (InterruptedException e) {
+			Log.e(LOG_TAG, "imageDownload error:"+e);
+		} catch (ExecutionException e) {
+			Log.e(LOG_TAG, "imageDownload error:"+e);
+		}
+		
+		img_profpic.setImageBitmap(logo != null ?  logo : def_logo );
 		String business_name = TextUtils.isEmpty(company.getBusiness_name()) ? company
 				.getFirst_name() + " " + company.getLast_name()
 				: company.getBusiness_name();
