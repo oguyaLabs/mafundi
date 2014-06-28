@@ -63,6 +63,7 @@ public class CompanyActivity extends DashboardActivity {
 	private Button btn_contact;
 	private Button btn_reviews;
 
+	private ArrayAdapter<String> listAdapter;
 	private ListView reviewsList;
 	private View section_content;
 	private View section_reviews;
@@ -160,10 +161,9 @@ public class CompanyActivity extends DashboardActivity {
 						txt_no_reviews.setVisibility(View.VISIBLE);
 						loadingError = false;
 					} else if (reviews.size() > 0 && !loadingError) {
-						reviewsList.setAdapter(new ArrayAdapter<String>(
-								CompanyActivity.this,
-								android.R.layout.simple_list_item_1,
-								getSubject(reviews)));
+						listAdapter = new ArrayAdapter<String>(CompanyActivity.this,
+								android.R.layout.simple_list_item_1,getSubject(reviews));
+						reviewsList.setAdapter(listAdapter);
 						loadingError = false;
 					} else {
 						toast("Something's not right! Please try again later.");
@@ -191,6 +191,16 @@ public class CompanyActivity extends DashboardActivity {
 		} else {
 			section_reviews.setVisibility(View.GONE);
 			section_content.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	void refreshReviewList(){
+		if(listAdapter != null && reviews!=null){
+			listAdapter = new ArrayAdapter<String>(CompanyActivity.this,
+					android.R.layout.simple_list_item_1,getSubject(reviews));
+			reviewsList.setAdapter(listAdapter);
+		}else{
+			Log.e(LOG_TAG, "adapter & arrayList are both null");
 		}
 	}
 	
@@ -361,6 +371,7 @@ public class CompanyActivity extends DashboardActivity {
 	class NetOps extends AsyncTask<String, Void, String> {
 		List<NameValuePair> nameValuePairs;
 		int callType;
+		Review newReview;
 
 		Runnable showToast = new Runnable() {
 			@Override
@@ -418,6 +429,13 @@ public class CompanyActivity extends DashboardActivity {
 					URI uri = buildURI(from, to, subject, companyID);
 					results = new NetHandler().callAPI(uri);
 					Log.e(LOG_TAG, "result:" + results);
+					
+					newReview = new Review();
+					newReview .setFrom(from);
+					newReview.setTo(to);
+					newReview.setSubject(subject);
+					newReview.setUserID(Integer.parseInt(companyID));
+					
 				} catch (ClientProtocolException e) {
 					loadingError = true;
 					Log.e(LOG_TAG, "Api error: " + e.getMessage());
@@ -483,8 +501,17 @@ public class CompanyActivity extends DashboardActivity {
 					APIMessage message = parseCreateReviewResults(results);
 					if(message.getStatus() == 0)
 						toast("Unable to send review at the moment. Please try again later.");
-					else
+					else{
 						toast("Review sent successfully.");
+						//TODO add to reviewList
+						if(newReview != null){
+							reviews.add(newReview);
+							refreshReviewList();
+							Log.e(LOG_TAG, "refreshing review list");
+						}else{
+							Log.e(LOG_TAG, "unable to refresh review list");
+						}
+					}
 					break;
 					
 				default: break;
