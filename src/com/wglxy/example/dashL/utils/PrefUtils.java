@@ -29,16 +29,18 @@ public class PrefUtils {
 		String email = prefs.getString(Constants.KEY_USER_EMAIL, null);
 		String first_name = prefs.getString(Constants.KEY_USER_FIRST_NAME, null);
 		String last_name = prefs.getString(Constants.KEY_USER_LAST_NAME, null);
+		String user_id = prefs.getString(Constants.KEY_USER_ID, null);
 		
 		user.setPhone(phone);
 		user.setEmail(email);
 		user.setFirst_name(first_name);
 		user.setLast_name(last_name);
+		user.setId(Integer.parseInt(user_id));
 		
 		return user;
 	}
 
-	public void setLoggedIn(String phone, String email, boolean loggedIn, String first_name, String last_name){
+	public void setLoggedIn(String phone, String email, boolean loggedIn, String first_name, String last_name, String userID){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.activity);
 		Editor editor = prefs.edit();
 		editor.putString(Constants.KEY_USER_PHONE, phone);
@@ -46,6 +48,7 @@ public class PrefUtils {
 		editor.putBoolean(Constants.KEY_USER_LOGGED_IN, loggedIn);
 		editor.putString(Constants.KEY_USER_FIRST_NAME, first_name);
 		editor.putString(Constants.KEY_USER_LAST_NAME, last_name);		
+		editor.putString(Constants.KEY_USER_ID, userID);
 		editor.commit();
 	}
 
