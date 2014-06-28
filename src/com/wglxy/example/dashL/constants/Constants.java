@@ -14,7 +14,8 @@ public class Constants {
 	public static final String KEY_USER_PHONE= "user_phone";
 	public static final String KEY_USER_EMAIL = "user_email";
 	public static final String KEY_USER_FIRST_NAME = "first_name";
-	public static final String KEY_USER_LAST_NAME = "last_name";	
+	public static final String KEY_USER_LAST_NAME = "last_name";
+	public static final String KEY_USER_ID= "user_id";
 	
 	//API URLS
 //	public static final String API_BASE_URL = "http://107.170.165.53/mafundis-app/app/";
@@ -30,6 +31,7 @@ public class Constants {
 	public static final String API_ENDPOINT_CATEGORY = "category";
 	public static final String API_ENDPOINT_CONTACT = "contact";
 	public static final String API_ENDPOINT_REVIEWS = "review";
+	public static final String API_ENDPOINT_CREATE_REVIEWS = "create_review";
 	
 	//API URL ARGS
 	public static final String API_LOGIN_ARGS_EMAIL = "email";
@@ -43,5 +45,9 @@ public class Constants {
 	public static final String API_CONTACT_ARGS_PHONE = "phone";
 	public static final String API_CONTACT_ARGS_SUBJECT = "subject";
 	public static final String API_CONTACT_ARGS_BODY = "body";
+	public static final String API_CREATE_REVIEW_ARGS_TO = "to";
+	public static final String API_CREATE_REVIEW_ARGS_FROM = "from";
+	public static final String API_CREATE_REVIEW_ARGS_SUBJECT = "subject";
+	public static final String API_CREATE_REVIEW_ARGS_USERID = "user_id";
 	
 }

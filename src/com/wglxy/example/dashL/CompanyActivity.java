@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.security.auth.Subject;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -43,6 +45,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wglxy.example.dashL.constants.Constants;
+import com.wglxy.example.dashL.model.APIMessage;
 import com.wglxy.example.dashL.model.Review;
 import com.wglxy.example.dashL.model.User;
 import com.wglxy.example.dashL.net.ImageDownloader;
@@ -74,6 +77,8 @@ public class CompanyActivity extends DashboardActivity {
 
 	private static final String KEY_USER_OBJ = "company";
 	private static final String KEY_USER_ID = "userID";
+	private static final int CALL_GET_REVIEWS = 0;
+	private static final int CALL_CREATE_REVIEWS = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -188,9 +193,14 @@ public class CompanyActivity extends DashboardActivity {
 			section_content.setVisibility(View.VISIBLE);
 		}
 	}
+	
+	void createReviews(String from, String to, String subject, String companyID){
+		String[] args = {from, to, subject, companyID};
+		new NetOps(CALL_CREATE_REVIEWS).execute(args);
+	}
 
 	void loadReviews() throws InterruptedException, ExecutionException {
-		String results = new NetOps().execute(
+		String results = new NetOps(CALL_GET_REVIEWS).execute(
 				new String[] { String.valueOf(company.getId()) }).get();
 		try {
 			reviews = parseJSON(results);
@@ -262,6 +272,8 @@ public class CompanyActivity extends DashboardActivity {
 		servicesList.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, company.getServices()
 						.split(",")));
+		
+		btn_add_review.setEnabled(isLoggedIn());
 	}
 
 	String[] getServices(String arrString) {
@@ -323,17 +335,22 @@ public class CompanyActivity extends DashboardActivity {
 				if(TextUtils.isEmpty(reviewStr)){
 					toast("Please enter a comment.");
 					return;
+				}else{
+					Loading.setVisibility(View.VISIBLE);
+					review.setVisibility(View.GONE);
+					User user = CompanyActivity.this.getLoggedInUser();
+					String from = user.getEmail();
+					String to = company.getEmail();
+					Log.e(LOG_TAG, "userID: "+user.getId());
+					String companyID = String.valueOf(company.getId());
+					Log.e(LOG_TAG, "Review: from:"+from+" to: "+to+" companyID: "+companyID+" subject: "+reviewStr);
+					createReviews(from, to, reviewStr, companyID);
 				}
-				Loading.setVisibility(View.VISIBLE);
-				review.setVisibility(View.GONE);
-				toast("input: "+reviewStr);
 			}
 		});
 		builder.setNegativeButton("Cancel", new OnClickListener() {
-			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO cancel
 				dialog.dismiss();
 			}
 		});
@@ -342,11 +359,8 @@ public class CompanyActivity extends DashboardActivity {
 	}
 
 	class NetOps extends AsyncTask<String, Void, String> {
-		InputStream inputStream;
-		HttpClient httpclient;
-		HttpPost httppost;
 		List<NameValuePair> nameValuePairs;
-		StringBuffer sb;
+		int callType;
 
 		Runnable showToast = new Runnable() {
 			@Override
@@ -355,6 +369,12 @@ public class CompanyActivity extends DashboardActivity {
 				toast("Unable to connect to the internet");
 			}
 		};
+		
+		public NetOps(){}
+		
+		public NetOps(int type){
+			this.callType = type;
+		}
 
 		@Override
 		protected void onPreExecute() {
@@ -365,27 +385,58 @@ public class CompanyActivity extends DashboardActivity {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String companyID = params[0];
-
 			String results = null;
-			try {
-				URI uri = buildURI(companyID);
-				results = new NetHandler().callAPI(uri);
-				Log.e(LOG_TAG, "result:" + results);
-			} catch (ClientProtocolException e) {
-				loadingError = true;
-				Log.e(LOG_TAG, "Api error: " + e.getMessage());
-				runOnUiThread(showToast);
-			} catch (IOException e) {
-				loadingError = true;
-				Log.e(LOG_TAG, "Api error: " + e.getMessage());
-				runOnUiThread(showToast);
-			} catch (URISyntaxException e) {
-				loadingError = true;
-				Log.e(LOG_TAG, "Api error: " + e.getMessage());
-				runOnUiThread(showToast);
+			switch(this.callType){
+			case CALL_GET_REVIEWS:	//get reviews
+				String companyID = params[0];
+				try {
+					URI uri = buildURI(companyID);
+					results = new NetHandler().callAPI(uri);
+					Log.e(LOG_TAG, "result:" + results);
+				} catch (ClientProtocolException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				} catch (IOException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				} catch (URISyntaxException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				}
+				return results;
+				
+			case CALL_CREATE_REVIEWS: //create reviews
+				String from = params[0];
+				String to = params[1];
+				String subject = params[2];
+				companyID = params[3];
+				
+				try {
+					URI uri = buildURI(from, to, subject, companyID);
+					results = new NetHandler().callAPI(uri);
+					Log.e(LOG_TAG, "result:" + results);
+				} catch (ClientProtocolException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				} catch (IOException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				} catch (URISyntaxException e) {
+					loadingError = true;
+					Log.e(LOG_TAG, "Api error: " + e.getMessage());
+					runOnUiThread(showToast);
+				}
+				
+				return results;
+				
+			default: return results;
 			}
-			return results;
+			
 		}
 
 		URI buildURI(String companyID) throws URISyntaxException {
@@ -398,10 +449,47 @@ public class CompanyActivity extends DashboardActivity {
 					Constants.API_ENDPOINT_URL,
 					URLEncodedUtils.format(args, "UTF-8"), null);
 		}
+		
+		URI buildURI(String from, String to, String subject, String uscompanyID) throws URISyntaxException{
+			ArrayList<NameValuePair> args = new ArrayList<NameValuePair>();
+			args.add(new BasicNameValuePair(Constants.API_ENDPOINT_ARG, Constants.API_ENDPOINT_CREATE_REVIEWS));
+			args.add(new BasicNameValuePair(Constants.API_CREATE_REVIEW_ARGS_FROM, from));
+			args.add(new BasicNameValuePair(Constants.API_CREATE_REVIEW_ARGS_TO, to));
+			args.add(new BasicNameValuePair(Constants.API_CREATE_REVIEW_ARGS_SUBJECT, subject));
+			args.add(new BasicNameValuePair(Constants.API_CREATE_REVIEW_ARGS_USERID, uscompanyID));
+			return URIUtils.createURI("http", Constants.API_BASE_URL, -1, 
+					Constants.API_ENDPOINT_URL, URLEncodedUtils.format(args, "utf-8"), null);
+		}
+		
+		APIMessage parseCreateReviewResults(String results){
+			int status = 0;
+			String statusMessage = "Api error";
+			try {
+				JSONObject jsonObject = new JSONObject(results);
+				status = jsonObject.getInt("status");
+				statusMessage = jsonObject.getString("statusMessage");
+				return new APIMessage(status, statusMessage);
+			} catch (JSONException e) {
+				return new APIMessage(status, statusMessage);				
+			}
+		}
 
 		@Override
 		protected void onPostExecute(String results) {
 			super.onPostExecute(results);
+			
+			switch(this.callType){
+				case CALL_CREATE_REVIEWS:
+					APIMessage message = parseCreateReviewResults(results);
+					if(message.getStatus() == 0)
+						toast("Unable to send review at the moment. Please try again later.");
+					else
+						toast("Review sent successfully.");
+					break;
+					
+				default: break;
+			}
+			
 			if (pDlg != null)
 				pDlg.dismiss();
 		}
