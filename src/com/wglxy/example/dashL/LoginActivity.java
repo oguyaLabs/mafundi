@@ -142,7 +142,7 @@ public class LoginActivity extends DashboardActivity {
 			// login successfull
 			user = processResults(json);
 			super.setLoggedIn(user.getPhone(), user.getEmail(), true,
-					user.getFirst_name(), user.getLast_name());
+					user.getFirst_name(), user.getLast_name(), String.valueOf(user.getId()));
 			return true;
 		} else {
 			txt_login_status.setVisibility(View.VISIBLE);

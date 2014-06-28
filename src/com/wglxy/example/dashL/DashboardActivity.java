@@ -170,9 +170,9 @@ public abstract class DashboardActivity extends Activity {
 	}
 
 	public void setLoggedIn(String phone, String email, boolean loggedIn,
-			String first_name, String last_name) {
+			String first_name, String last_name, String userID) {
 		new PrefUtils(this).setLoggedIn(phone, email, loggedIn, first_name,
-				last_name);
+				last_name, userID);
 	}
 
 	public void logOutUser() {
