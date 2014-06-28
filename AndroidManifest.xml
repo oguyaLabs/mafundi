@@ -51,8 +51,8 @@
             android:theme="@style/Theme.D1" />
         <activity
             android:name="com.wglxy.example.dashL.SearchActivity"
-            android:label="@string/title_search"
             android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_search"
             android:theme="@style/Theme.D1" />
         <activity
             android:name="com.wglxy.example.dashL.Fetch_electricians"
@@ -97,6 +97,10 @@
         <activity
             android:name="com.wglxy.example.dashL.SignUpActivity"
             android:label="@string/title_activity_sign_up" >
+        </activity>
+        <activity
+            android:name="com.wglxy.example.dashL.CreateReviewActivity"
+            android:label="@string/title_activity_create_review" >
         </activity>
     </application>
 

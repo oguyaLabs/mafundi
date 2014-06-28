@@ -68,5 +68,6 @@
     <string name="lbl_submit">Submit</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_create_review">Review</string>
 
 </resources>

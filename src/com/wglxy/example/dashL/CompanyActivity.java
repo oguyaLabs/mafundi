@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -21,17 +19,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -60,6 +64,7 @@ public class CompanyActivity extends DashboardActivity {
 	private View section_content;
 	private View section_reviews;
 	private ProgressDialog pDlg;
+	private Button btn_add_review;
 
 	private int companyID;
 	private boolean loadingError = false;
@@ -110,9 +115,11 @@ public class CompanyActivity extends DashboardActivity {
 		servicesList = (ListView) findViewById(R.id.servicesList);
 		btn_contact = (Button) findViewById(R.id.btn_contact);
 		btn_reviews = (Button) findViewById(R.id.btn_reviews);
+		btn_add_review = (Button)findViewById(R.id.btn_add_review);
 
 		btn_contact.setOnClickListener(clickListener);
 		btn_reviews.setOnClickListener(clickListener);
+		btn_add_review.setOnClickListener(clickListener);
 
 		reviewsList = (ListView) findViewById(R.id.reviewsList);
 		section_content = (RelativeLayout) findViewById(R.id.section_content);
@@ -157,13 +164,17 @@ public class CompanyActivity extends DashboardActivity {
 						toast("Something's not right! Please try again later.");
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					toast("Something's not right! Please try again later.");
 				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
 					toast("Something's not right! Please try again later.");
 				}
 				break;
+				
+			case R.id.btn_add_review:
+				showReviewDlg();
+				break;
+				
+			default: break;
 			}
 		}
 	};
@@ -187,10 +198,14 @@ public class CompanyActivity extends DashboardActivity {
 			e.printStackTrace();
 			loadingError = true;
 			toast("Something's not right! Please try again later.");
+		}catch(NullPointerException ex){
+			ex.printStackTrace();
+			loadingError = true;
+			toast("Something's not right! Please try again later.");
 		}
 	}
 
-	ArrayList<Review> parseJSON(String jsonResults) throws JSONException {
+	ArrayList<Review> parseJSON(String jsonResults) throws JSONException, NullPointerException {
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		JSONObject jsonObject = new JSONObject(jsonResults);
 		int status = jsonObject.getInt("status");
@@ -286,6 +301,44 @@ public class CompanyActivity extends DashboardActivity {
 				.getParcelable(KEY_USER_OBJ) : new User();
 		companyID = (savedInstanceState != null) ? savedInstanceState
 				.getInt(KEY_USER_ID) : 0;
+	}
+	
+	void showReviewDlg(){
+		LayoutInflater inflater = LayoutInflater.from(CompanyActivity.this);
+		View layout = inflater.inflate(R.layout.create_review_dlg, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(CompanyActivity.this);
+		builder.setView(layout);
+		
+		final EditText review = (EditText)layout.findViewById(R.id.edt_review);
+		final View Loading = (RelativeLayout)layout.findViewById(R.id.loading);
+		
+		builder.setTitle("Write a Review");
+		builder.setCancelable(false);
+		builder.setPositiveButton("Submit", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO get text
+				//TODO send text to server
+				String reviewStr = review.getText().toString();
+				if(TextUtils.isEmpty(reviewStr)){
+					toast("Please enter a comment.");
+					return;
+				}
+				Loading.setVisibility(View.VISIBLE);
+				review.setVisibility(View.GONE);
+				toast("input: "+reviewStr);
+			}
+		});
+		builder.setNegativeButton("Cancel", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO cancel
+				dialog.dismiss();
+			}
+		});
+		
+		builder.create().show();
 	}
 
 	class NetOps extends AsyncTask<String, Void, String> {
